@@ -1,0 +1,9 @@
+@import "variables";
+
+.controllable {
+
+	&:focus {
+      border: 2px solid red;
+
+    }
+}

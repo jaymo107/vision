@@ -15,6 +15,11 @@ $app->get('/', function () use ($app) {
     return view('index');
 });
 
-$app->get('/user/{id}', function ($id) use ($app) {
-    return 'SHOW user: '.$id;
+$app->group(['prefix' => 'user'], function () use ($app) {
+    $app->get('/', ['as' => 'user', 'uses' => 'UserController@getUser']);
+});
+
+$app->group(['prefix' => 'programmes'], function () use ($app) {
+    $app->get('/', ['as' => 'programmes', 'uses' => 'ProgrammeController@getProgrammes']);
+    $app->get('{id}', ['as' => 'programme', 'uses' => 'ProgrammeController@getProgramme']);
 });

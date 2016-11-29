@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-1">
+        <a class="carousel-nav" href="#<%- carouselId %>" data-slide="prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-md-10">
+        <div id="<%- carouselId %>" class="carousel slide" data-keyboard="false">
+
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="row">
+
+                        <% _.each(items, function(item, index) { index += 1; %>
+                        <div class="col-sm-3">
+                            <a href="#/watch/<%- item.programme_id %>" class="thumbnail">
+                                <h4><%- item.programme_name %></h4>
+                                <hr>
+                                <img src="http://iptv-med-image.lancs.ac.uk/cache/500x500/programmes/<%- item.image %>"
+                                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">
+
+                                <span class="small"><%- item.duration %></span>
+                                <span class="small pull-right"><%- item.channel_name %></span>
+                            </a>
+                        </div>
+
+                        <% if(index % 4 == 0) { %>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+                        <% } %>
+
+                        <% }) %>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--/myCarousel-->
+    </div>
+    <div class="col-md-1">
+        <a class="carousel-nav" href="#<%- carouselId %>" data-slide="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    </div>
+</div>

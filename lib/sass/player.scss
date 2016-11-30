@@ -1,0 +1,31 @@
+@import "variables";
+
+button {
+  &.plyr__play-large {
+    width: 200px;
+    height: 200px;
+    background: white;
+    color: black;
+    border: none;
+
+    & svg {
+      left: 40px;
+      width: 120px;
+      height: 120px;
+    }
+  }
+}
+
+.plyr--video {
+
+  & .plyr__volume {
+    display: none;
+  }
+
+  > button{
+    display: none;
+  }
+}
+
+
+

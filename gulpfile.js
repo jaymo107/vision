@@ -62,15 +62,6 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('./public/dist/css/'));
 });
 
-/**
- * Initialise the connection to the development server to
- * allow for live reloading.
- */
-gulp.task('connect', function() {
-    connect.server({
-        livereload: true
-    });
-});
 
 /**
  * Watch and automatically re-run these tasks when the files
@@ -84,4 +75,4 @@ gulp.task('watch', [], function() {
 /**
  * Default gulp task, run them all.
  */
-gulp.task('default', ['build', 'connect', 'watch']);
+gulp.task('default', ['build', 'watch']);

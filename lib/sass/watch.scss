@@ -15,3 +15,10 @@ video{
     font-weight:300;
   }
 }
+
+.category-panel {
+  :focus {
+    background: red;
+    color: blue;
+  }
+}

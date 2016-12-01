@@ -1,0 +1,29 @@
+<h2><i class="fa fa-list" aria-hidden="true"></i> Browse</h2>
+<hr>
+<div class="row">
+
+    <% _.each(items, function(item, index) { index += 1; %>
+
+    <div class="col-md-3">
+        <a href="/#/browse/<%- item.title %>" class="category-panel">
+            <div class="panel panel-default controllable">
+
+                <div class="panel-body text-center">
+                    <strong><h3><%- item.title %></h3></strong>
+                    <hr>
+                    <h4><%- item.total %> &nbsp;programmes</h4></div>
+
+            </div>
+        </a>
+
+    </div>
+
+    <% if(index % 4 == 0) { %>
+</div>
+<div class="row">
+
+    <% } %>
+
+    <% }) %>
+
+</div>

@@ -5,15 +5,12 @@
     <% _.each(items, function(item, index) { index += 1; %>
 
     <div class="col-md-3">
-        <a href="/#/browse/<%- item.title %>" class="category-panel">
-            <div class="panel panel-default controllable">
+        <a href="/#/browse/<%- item.title %>" class="category-panel btn btn-xs btn-default btn-block controllable">
+                
+            <strong><h3><%- item.title %></h3></strong>
+            <hr>
+            <h4><%- item.total %> &nbsp;programmes</h4>
 
-                <div class="panel-body text-center">
-                    <strong><h3><%- item.title %></h3></strong>
-                    <hr>
-                    <h4><%- item.total %> &nbsp;programmes</h4></div>
-
-            </div>
         </a>
 
     </div>

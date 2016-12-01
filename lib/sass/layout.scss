@@ -65,8 +65,14 @@ h2, h3, h1, h4{
   }
 }
 
+*{
+  transition: background-color .5s;
+}
+
 *:focus {
-  outline:none;
+  outline: none !important;
+  border:1px solid red;
+  box-shadow: 0 0 10px #719ECE;
   background-color:rgba(0,0,0,0);
 }
 

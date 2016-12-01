@@ -11,6 +11,18 @@
 </head>
 <body>
 <div class="container"></div>
+<script type="text/javascript">
+
+	window.App = {
+	    user: {
+	        id: '{{ $userId }}'
+	    },
+
+	    api: '{{ $apiKey }}'
+	};
+
+
+</script>
 <script src="https://cdn.plyr.io/2.0.11/plyr.js"></script>
 <script src="https://luke-chang.github.io/js-spatial-navigation/spatial_navigation.js"></script>
 <script src="dist/js/app.js"></script>

@@ -1,0 +1,532 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"user",
+				"userId"
+			],
+			[
+				"cur",
+				"cursor"
+			],
+			[
+				"col",
+				"color"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"trans",
+				"transition"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"min",
+				"min-height"
+			],
+			[
+				"togg",
+				"toggleClass\t.toggleClass()"
+			],
+			[
+				"in",
+				"inline"
+			],
+			[
+				"wd",
+				"width"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"nav",
+				"nav-home"
+			],
+			[
+				"ma",
+				"map\t$.map()"
+			],
+			[
+				"Browse",
+				"BrowseView"
+			],
+			[
+				"initi",
+				"initialize:before"
+			],
+			[
+				"d",
+				"dd\tTag"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"get",
+				"get\t$.get()"
+			],
+			[
+				"Marionet",
+				"Marionette.Application"
+			],
+			[
+				"Ma",
+				"Marionette.Application"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "routes/web.php",
+			"settings":
+			{
+				"buffer_size": 848,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/HomeController.php",
+			"settings":
+			{
+				"buffer_size": 575,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "r",
+		"selected_items":
+		[
+			[
+				"r",
+				"Package Control: Remove Package"
+			],
+			[
+				"insa",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"toggle",
+				"View: Toggle Side Bar"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"h",
+				"HTMLBeautify"
+			],
+			[
+				"beaut",
+				"HTMLBeautify"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Install Package Control"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/JamesDavies/Documents/Web/VisionApp/app",
+		"/Users/JamesDavies/Documents/Web/VisionApp/app/Http",
+		"/Users/JamesDavies/Documents/Web/VisionApp/app/Http/Controllers",
+		"/Users/JamesDavies/Documents/Web/VisionApp/resources",
+		"/Users/JamesDavies/Documents/Web/VisionApp/resources/views",
+		"/Users/JamesDavies/Documents/Web/VisionApp/routes"
+	],
+	"file_history":
+	[
+		"/Users/JamesDavies/Documents/Web/VisionApp/resources/views/index.blade.php",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates/watch.template.html",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates/home.template.html",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/sass/layout.scss",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/RecentlyWatchedView.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/VideoView.js",
+		"/Users/JamesDavies/Documents/Web/Radioco/lib/src/common/event/channel.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/public/index.php",
+		"/Users/JamesDavies/Documents/Web/VisionApp/routes/api.php",
+		"/Users/JamesDavies/Documents/Web/VisionApp/.env.example",
+		"/Users/JamesDavies/Documents/Web/VisionApp/vendor/illuminate/auth/Console/stubs/make/views/home.stub",
+		"/Users/JamesDavies/Documents/Web/VisionApp/app/Http/Controllers/ExampleController.php",
+		"/Users/JamesDavies/Documents/Bailrigg/resources/views/admin/viewmember.blade.php",
+		"/private/var/folders/pv/lqmrtsks73b_x4c5s0_h7z200000gn/T/fz3temp-2/viewproduct.php",
+		"/Users/JamesDavies/Documents/Web/RadioFriendly/public/js/app.js",
+		"/Users/JamesDavies/Documents/Web/ResponsiveCoursework/style.css",
+		"/Users/JamesDavies/Documents/Auctioning System/src/BuyerClient.java",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/templates/navigation.template.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/templates/home.template.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/templates/header.template.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/templates/app.template.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/app.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/HomeView.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/routers/Router.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/models/User.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/models/Programme.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/AppLayoutView.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/NavigationView.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/collections/TrendingCollection.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/models/NavigationPage.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/HeaderView.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/BrowseView.js",
+		"/Users/JamesDavies/Documents/Vision/gulpfile.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/PopularView.js",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/TopRegion.js",
+		"/Users/JamesDavies/Documents/Vision/index.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/views/header.template.html",
+		"/Users/JamesDavies/Documents/Vision/lib/js/src/routers/HeaderView.js",
+		"/Users/JamesDavies/Documents/Web/ResponsiveCoursework/css/main.css",
+		"/Users/JamesDavies/Documents/Auctioning System/src/README.md",
+		"/Users/JamesDavies/Documents/VisionApp/app/lib/js/app.js",
+		"/Users/JamesDavies/Documents/VisionApp/app/lib/js/src/views/header/headerView.js",
+		"/Users/JamesDavies/Documents/VisionApp/app/lib/js/src/controllers/browse.js"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"text-de",
+			"TrendingCo",
+			"ul.topnav li",
+			"topnav",
+			"menu-item",
+			"#body-con",
+			"responsive",
+			"#menu",
+			"ICON",
+			"}\n",
+			"burger",
+			"container",
+			"img"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "routes/web.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 848,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								457,
+								457
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/Http/Controllers/HomeController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 575,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								218,
+								218
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 70.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "visionapp.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"web.",
+				"routes/web.php"
+			],
+			[
+				"wat",
+				"sass/watch.scss"
+			],
+			[
+				"home",
+				"resources/views/home.blade.php"
+			],
+			[
+				"index",
+				"public/index.php"
+			],
+			[
+				"routes",
+				"vendor/illuminate/auth/Console/stubs/make/routes.stub"
+			],
+			[
+				"manageshow",
+				"resources/views/admin/manageshows.blade.php"
+			],
+			[
+				"dashb",
+				"resources/views/members/dashboard.blade.php"
+			],
+			[
+				"admincon",
+				"app/Http/Controllers/Admin/AdminController.php"
+			],
+			[
+				"manage",
+				"resources/views/admin/managemembers.blade.php"
+			],
+			[
+				"dashboard.b",
+				"resources/views/members/dashboard.blade.php"
+			],
+			[
+				"albumartcon",
+				"app/Http/Controllers/AlbumArtController.php"
+			],
+			[
+				"routes.p",
+				"app/Http/routes.php"
+			],
+			[
+				"historycon",
+				"app/Http/Controllers/HistoryController.php"
+			],
+			[
+				"histor",
+				"app/History.php"
+			],
+			[
+				"viewsho",
+				"resources/views/admin/viewshow.blade.php"
+			],
+			[
+				"showscon",
+				"app/Http/Controllers/Admin/ShowsController.php"
+			],
+			[
+				"router",
+				"lib/js/src/routers/Router.js"
+			],
+			[
+				"members",
+				"app/Http/Controllers/Members/MembersController.php"
+			],
+			[
+				"gulp",
+				"gulpfile.js"
+			],
+			[
+				"navigat",
+				"lib/js/src/views/templates/navigation.template.html"
+			],
+			[
+				"gulpfile",
+				"gulpfile.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 233.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -11,9 +11,7 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return view('index');
-});
+$app->get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 $app->group(['prefix' => 'user'], function () use ($app) {
     $app->get('/', ['as' => 'user', 'uses' => 'UserController@getUser']);

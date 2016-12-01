@@ -3,6 +3,8 @@
 @import "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap-sprockets";
 @import "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
 @import "./node_modules/plyr/dist/plyr.css";
+@import "./node_modules/slick-carousel/slick/slick.scss";
+@import "./node_modules/slick-carousel/slick/slick-theme.scss";
 
 *{
   font-family: 'Open Sans', sans-serif;
@@ -18,7 +20,8 @@ h2, h3, h1, h4{
   margin-top: 20px;
 }
 
-.carousel-nav{
+.slick-prev, .slick-next{
+  display: none;
   background: #333;
   padding: 100px 20px;
   position: relative;
@@ -75,6 +78,7 @@ h2, h3, h1, h4{
   box-shadow: 0 0 10px #719ECE;
   background-color:rgba(0,0,0,0);
 }
+
 
 nav{
 

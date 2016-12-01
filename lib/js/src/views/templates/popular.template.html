@@ -1,73 +1,21 @@
 <h2><i class="fa fa-fire" aria-hidden="true"></i> Popular Now</h2>
 <hr>
 
+<% _.each(collections, function(collection, cindex) { %>
 <div class="row">
-    <div class="col-md-1">
-        <a class="carousel-nav" href="#myCarousel" data-slide="prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-    </div>
-    <div class="col-md-10">
-        <div id="myCarousel" class="carousel slide" data-keyboard="false">
-
-            <!-- Carousel items -->
-            <div class="carousel-inner">
-                <div class="item active">
-                    <div class="row">
-
-                        <% _.each(items, function(item, index) { index += 1; %>
-                        <div class="col-sm-3">
-                            <a href="#/watch/<%- item.programme_id %>" class="thumbnail">
-                                <h4><%- item.programme_name %></h4>
-                                <hr>
-                                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"
-                                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">
-
-                                <span class="small"><%- item.duration %></span>
-                                <span class="small pull-right"><%- item.channel_name %></span>
-                            </a>
-                        </div>
-
-                        <% if(index % 4 == 0) { %>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="row">
-                        <% } %>
-
-                        <% }) %>
-
-                    </div>
-                    <!--/row-->
-                </div>
-                <!--&lt;!&ndash;/item&ndash;&gt;-->
-                <!--<div class="item">-->
-                <!--<div class="row">-->
-                <!--<div class="col-sm-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/row&ndash;&gt;-->
-                <!--</div>-->
-
-            </div>
-
+    <div class="popular-carousel">
+        <% _.each(collection, function(item, index) { %>
+        <div class="col-sm-3">
+            <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail">
+                <h4><%- item.get('programme_name') %></h4>
+                <hr>
+                <img data-lazy="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get('image') %>" alt="<%- item.get('programme_title') %>" class="img-responsive img-rounded">
+                <span class="small"><%- item.get('duration') %></span>
+                <span class="small pull-right"><%- item.get('channel_name') %></span>
+            </a>
         </div>
-
-        <!--/myCarousel-->
-    </div>
-    <div class="col-md-1">
-        <a class="carousel-nav" href="#myCarousel" data-slide="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        <% }) %>
     </div>
 </div>
+
+<% }); %>

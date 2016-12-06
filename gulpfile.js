@@ -13,6 +13,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var changed = require('gulp-changed');
 var babelify = require('babelify');
 var stringify = require('stringify');
+let elixir = require("laravel-elixir");
 
 /**
  * Path to the scripts to be used in the application,

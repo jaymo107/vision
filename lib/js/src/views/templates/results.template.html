@@ -1,8 +1,19 @@
 <h2><i class="fa fa-search"></i> Search Results for <strong><%- search %></strong></h2>
 <hr>
-<div class="row">
 
-    <!-- Results here -->
-    <div class="text-center">Loading results...</div>
+<div class="row search-results">
+
+	<% _.each(items, function(item, index) { %>
+		<div class="col-sm-3">
+            <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail">
+                <h4><%- item.get('programme_name') %></h4>
+                <hr>
+                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get('image') %>" alt="<%- item.get('programme_title') %>" class="img-responsive img-rounded">
+                <span class="small"><%- item.get('duration') %></span>
+                <span class="small pull-right"><%- item.get('channel_name') %></span>
+            </a>
+        </div>
+	<% }); %>
+   	
 
 </div>

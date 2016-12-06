@@ -14,7 +14,7 @@ var changed = require('gulp-changed');
 var babelify = require('babelify');
 var stringify = require('stringify');
 let elixir = require("laravel-elixir");
-
+require("laravel-elixir-browserify-official");
 /**
  * Path to the scripts to be used in the application,
  * include each one in the order to be imported to
@@ -73,7 +73,16 @@ gulp.task('watch', [], function() {
     gulp.watch('./lib/sass/**/*.scss', ['styles']);
 });
 
+elixir((mix) => {
+	mix.browserify([
+		'./lib/js/app.js', //source
+	],'./public/dist/js/app.js', null, {
+		transform: [['babelify', { compact: false }]]
+	});
+
+});
+
 /**
  * Default gulp task, run them all.
  */
-gulp.task('default', ['build', 'watch']);
+//gulp.task('default', ['build', 'watch']);

@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"Search",
+				"SearchCollection"
+			],
+			[
 				"user",
 				"userId"
 			],
@@ -100,19 +104,28 @@
 	"buffers":
 	[
 		{
-			"file": "routes/web.php",
+			"file": "lib/js/src/views/HeaderView.js",
 			"settings":
 			{
-				"buffer_size": 848,
+				"buffer_size": 452,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/js/src/views/templates/popular.template.html",
+			"file": "lib/js/src/views/AppLayoutView.js",
 			"settings":
 			{
-				"buffer_size": 872,
+				"buffer_size": 1531,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/js/src/views/SearchResultsView.js",
+			"settings":
+			{
+				"buffer_size": 1181,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -121,43 +134,34 @@
 			"file": "lib/sass/layout.scss",
 			"settings":
 			{
-				"buffer_size": 1496,
+				"buffer_size": 1697,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/js/src/views/PopularView.js",
+			"file": "lib/js/src/collections/SearchCollection.js",
 			"settings":
 			{
-				"buffer_size": 1331,
+				"buffer_size": 756,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/js/app.js",
+			"file": "lib/js/src/views/templates/results.template.html",
 			"settings":
 			{
-				"buffer_size": 4363,
+				"buffer_size": 759,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "lib/js/src/collections/TrendingCollection.js",
+			"file": "lib/js/src/views/templates/popular.template.html",
 			"settings":
 			{
-				"buffer_size": 1234,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/HomeController.php",
-			"settings":
-			{
-				"buffer_size": 575,
-				"encoding": "UTF-8",
+				"buffer_size": 860,
 				"line_ending": "Unix"
 			}
 		}
@@ -255,6 +259,7 @@
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/collections",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/models",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/routers",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/sass",
@@ -262,14 +267,22 @@
 	],
 	"file_history":
 	[
+		"/Users/JamesDavies/Documents/Web/VisionApp/.gitignore",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/AppLayoutView.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/app.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/PopularView.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/sass/layout.scss",
+		"/Users/JamesDavies/Documents/Web/VisionApp/routes/web.php",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates/popular.template.html",
+		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/collections/BrowseVODCollection.js",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/collections/TrendingCollection.js",
+		"/Users/JamesDavies/Documents/Web/VisionApp/app/Http/Controllers/HomeController.php",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/models/Programme.js",
 		"/Users/JamesDavies/Library/Application Support/Sublime Text 3/Packages/Gulp/Gulp.sublime-settings",
 		"/Users/JamesDavies/Documents/Web/VisionApp/visionapp.sublime-project",
 		"/Users/JamesDavies/Documents/Web/VisionApp/resources/views/index.blade.php",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates/watch.template.html",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/templates/home.template.html",
-		"/Users/JamesDavies/Documents/Web/VisionApp/lib/sass/layout.scss",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/RecentlyWatchedView.js",
 		"/Users/JamesDavies/Documents/Web/VisionApp/lib/js/src/views/VideoView.js",
 		"/Users/JamesDavies/Documents/Web/Radioco/lib/src/common/event/channel.js",
@@ -361,25 +374,177 @@
 			[
 				{
 					"buffer": 0,
-					"file": "routes/web.php",
+					"file": "lib/js/src/views/HeaderView.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 848,
+						"buffer_size": 452,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5,
-								5
+								442,
+								442
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/js/src/views/AppLayoutView.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1117,
+								1117
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 706.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "lib/js/src/views/SearchResultsView.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								676,
+								676
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "lib/sass/layout.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1697,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1318,
+								1318
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1021.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "lib/js/src/collections/SearchCollection.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 756,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								586,
+								626
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "lib/js/src/views/templates/results.template.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 759,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								759,
+								759
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -389,20 +554,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 6,
 					"file": "lib/js/src/views/templates/popular.template.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 872,
+						"buffer_size": 860,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								153,
-								153
+								248,
+								814
 							]
 						],
 						"settings":
@@ -416,159 +581,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "lib/sass/layout.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1496,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1295,
-								1295
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1294.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "lib/js/src/views/PopularView.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1331,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1164,
-								1164
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 748.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "lib/js/app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4363,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3132,
-								3132
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "lib/js/src/collections/TrendingCollection.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1234,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								418,
-								418
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 454.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/Http/Controllers/HomeController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 575,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								238,
-								238
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"open_with_edit": true,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -629,6 +642,18 @@
 			[
 				"layout",
 				"lib/sass/layout.scss"
+			],
+			[
+				".gi",
+				".gitignore"
+			],
+			[
+				"vodco",
+				"lib/js/src/collections/BrowseVODCollection.js"
+			],
+			[
+				"header",
+				"lib/js/src/views/HeaderView.js"
 			],
 			[
 				"trendin",

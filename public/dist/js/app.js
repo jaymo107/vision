@@ -376,7 +376,7 @@ exports['default'] = _backbone2['default'].Collection.extend({
 		var query = options.search;
 
 		// Build the search url
-		this.url = this.url + 'q=' + query + '&start=0&rows=20&url=%2Ffuture%2Fselect&wt=json&send_filters=false&user_id=4&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&sort=score%2Bdesc&fq=start%3A%5BNOW-100YEAR+TO+NOW%5D';
+		this.url = this.url + 'q=' + query + '&start=0&rows=16&url=%2Ffuture%2Fselect&wt=json&send_filters=false&user_id=4&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&sort=score%2Bdesc&fq=start%3A%5BNOW-100YEAR+TO+NOW%5D';
 	},
 
 	parse: function parse(response) {
@@ -830,6 +830,8 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
         // Get the input
         var value = (0, _jquery2['default'])('#search-box').val();
+
+        if (value.length <= 0) return;
 
         this.showChildView('body', new _SearchResultsView2['default']({
             search: value

@@ -66,6 +66,11 @@ h2, h3, h1, h4{
   &:focus{
     background-color:rgba(0,0,0,.1);
   }
+
+  & img{
+    width: 200px;
+    height: 112px;
+  }
 }
 
 *{

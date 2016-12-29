@@ -21,3 +21,7 @@ $app->group(['prefix' => 'programmes'], function () use ($app) {
     $app->get('/', ['as' => 'programmes', 'uses' => 'ProgrammeController@getProgrammes']);
     $app->get('{id}', ['as' => 'programme', 'uses' => 'ProgrammeController@getProgramme']);
 });
+
+$app->group(['prefix' => 'recommendations'], function () use ($app) {
+    $app->get('{user}', ['as' => 'recommendations', 'uses' => 'RecommendationsController@getRecommendations']);
+});

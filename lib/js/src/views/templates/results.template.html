@@ -1,6 +1,22 @@
 <h2><i class="fa fa-search"></i> Search Results for <strong><%- search %></strong></h2>
 <hr>
 
+<div class="row">
+    
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow back">
+            <h4><i class="fa fa-arrow-left"></i></h4>
+        </a>
+    </div>
+
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow next">
+            <h4><i class="fa fa-arrow-right"></i></h4>
+        </a>
+    </div>
+
+</div>
+
 <div class="row search-results">
 
 	<% _.each(items, function(item, index) { %>
@@ -15,5 +31,20 @@
         </div>
 	<% }); %>
    	
+</div>
+
+<div class="row">
+    
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow back">
+            <h4><i class="fa fa-arrow-left"></i></h4>
+        </a>
+    </div>
+
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow next">
+            <h4><i class="fa fa-arrow-right"></i></h4>
+        </a>
+    </div>
 
 </div>

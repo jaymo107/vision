@@ -52,11 +52,25 @@ h2, h3, h1, h4{
 
 .thumbnail{
 
-  min-height: 250px;
+  height: 260px;
   transition:background-color .3s;
   padding:15px;
   background:none;
   background-size: cover;
+
+  &.arrow{
+    height: initial;
+    text-align: center;
+    background: #337ab7;
+    color: white;
+    font-size: 34px;
+    margin: -5px;
+    margin-bottom: 30px;
+
+    &:focus{
+      color: #337ab7;
+    }
+  }
 
   & span{
     position: relative;

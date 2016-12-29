@@ -1,3 +1,49 @@
 <h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>
 <hr>
-<div id="shows-region"></div>
+<div class="row">
+    
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow back">
+            <h4><i class="fa fa-arrow-left"></i></h4>
+        </a>
+    </div>
+
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow next">
+            <h4><i class="fa fa-arrow-right"></i></h4>
+        </a>
+    </div>
+
+</div>
+<div class="row shows">
+
+	<% _.each(items, function(item, index) { %>
+		<div class="col-sm-3">
+            <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail">
+                <h4><%- item.get('programme_name') %></h4>
+                <hr>
+                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get('image') %>" alt="<%- item.get('programme_title') %>" class="img-responsive img-rounded">
+                <span class="small"><%- item.get('duration') %></span>
+                <span class="small pull-right"><%- item.get('channel_name') %></span>
+            </a>
+        </div>
+	<% }); %>
+   	
+
+</div>
+
+<div class="row">
+    
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow back">
+            <h4><i class="fa fa-arrow-left"></i></h4>
+        </a>
+    </div>
+
+    <div class="col-sm-6">
+        <a href="#" class="thumbnail arrow next">
+            <h4><i class="fa fa-arrow-right"></i></h4>
+        </a>
+    </div>
+
+</div>

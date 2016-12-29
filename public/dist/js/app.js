@@ -176,7 +176,7 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Browse the video on demand section
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-	url: 'http://iptv-svc-search.lancs.ac.uk:8983/solr/browse_vod/select?wt=json',
+	url: 'http://iptv-svc-search.lancs.ac.uk/search2.php?',
 
 	genre: '',
 
@@ -185,7 +185,8 @@ exports['default'] = _backbone2['default'].Collection.extend({
 
 	initialize: function initialize(options) {
 		this.genre = options.genre;
-		this.url = this.url + '&rows=10&start=1&q=genre:' + options.genre + '&sort=programme_name%20asc';
+		this.page = options.page ? options.page : 0;
+		this.url = this.url + 'q=*&start=' + options.page * 64 + '&rows=64&url=%2Ffuture%2Fselect&wt=json&send_filters=false&user_id=4&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&sort=score%2Bdesc&fq=start%3A%5BNOW-100YEAR+TO+NOW%5D+AND+genre%3A"' + options.genre + '"';
 
 		this.fetch({
 			success: this.fetchSuccess,
@@ -194,7 +195,7 @@ exports['default'] = _backbone2['default'].Collection.extend({
 	},
 
 	parse: function parse(response) {
-		return response.docs;
+		return response.response.docs;
 	},
 
 	/**
@@ -343,11 +344,11 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
+    value: true
 });
 
 function _interopRequireDefault(obj) {
-	return obj && obj.__esModule ? obj : { 'default': obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _backbone = require('backbone');
@@ -366,22 +367,24 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Get any results from the current search criteria
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-	url: 'http://iptv-svc-search.lancs.ac.uk/search2.php?',
+    url: 'http://iptv-svc-search.lancs.ac.uk/search2.php?',
 
-	/** @type {Backbone.Model} The Model for the Programme structure */
-	model: _modelsProgramme2['default'],
+    /** @type {Backbone.Model} The Model for the Programme structure */
+    model: _modelsProgramme2['default'],
 
-	initialize: function initialize(options) {
+    initialize: function initialize(options) {
 
-		var query = options.search;
+        var query = options.search;
 
-		// Build the search url
-		this.url = this.url + 'q=' + query + '&start=0&rows=16&url=%2Ffuture%2Fselect&wt=json&send_filters=false&user_id=4&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&sort=score%2Bdesc&fq=start%3A%5BNOW-100YEAR+TO+NOW%5D';
-	},
+        var page = options.page ? options.page : 0;
 
-	parse: function parse(response) {
-		return response.response.docs;
-	}
+        // Build the search url
+        this.url = this.url + 'q=' + query + '&start=' + page * 16 + '&rows=16&url=%2Ffuture%2Fselect&wt=json&send_filters=false&user_id=4&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&sort=score%2Bdesc&fq=start%3A%5BNOW-100YEAR+TO+NOW%5D';
+    },
+
+    parse: function parse(response) {
+        return response.response.docs;
+    }
 
 });
 module.exports = exports['default'];
@@ -1294,6 +1297,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
 	template: _underscore2['default'].template(require('./templates/results.template.html')),
 
+	events: {
+		'click .back': 'backPage',
+		'click .next': 'nextPage'
+	},
+
 	collectionEvents: {
 		sync: 'actOnSync'
 	},
@@ -1301,6 +1309,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 	initialize: function initialize(options) {
 		this.collection = new _collectionsSearchCollection2['default']({ search: options.search });
 		this.search = options.search;
+
+		this.page = 0;
+
+		this.recentlyPressed = "";
 
 		this.collection.fetch({
 			success: this.fetchSuccess,
@@ -1313,6 +1325,43 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 			search: this.getOption('search'),
 			items: this.collection.models
 		};
+	},
+
+	backPage: function backPage(e) {
+
+		e.preventDefault();
+
+		if (this.getOption('page') < 1) return;
+
+		this.page -= 1;
+
+		console.log('Go back a page to page ' + this.getOption('page'));
+
+		this.collection = new _collectionsSearchCollection2['default']({ search: this.getOption('search'), page: this.getOption('page') });
+
+		this.collection.fetch({
+			success: this.render,
+			error: this.fetchError
+		});
+
+		this.recentlyPressed = 'back';
+	},
+
+	nextPage: function nextPage(e) {
+		e.preventDefault();
+
+		this.page += 1;
+
+		this.collection = new _collectionsSearchCollection2['default']({ search: this.getOption('search'), page: this.getOption('page') });
+
+		this.collection.fetch({
+			success: this.render,
+			error: this.fetchError
+		});
+
+		console.log('Go next to page ' + this.getOption('page'));
+
+		this.recentlyPressed = 'next';
 	},
 
 	/**
@@ -1330,6 +1379,12 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
   */
 	fetchError: function fetchError(data) {
 		console.log("Error retrieving search terms.");
+	},
+
+	onRender: function onRender() {
+		if (this.getOption('recentlyPressed') != "") {
+			SpatialNavigation.focus('.' + this.getOption('recentlyPressed'));
+		}
 	},
 
 	/**
@@ -1374,19 +1429,70 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
 	genre: '',
 
+	events: {
+		'click .back': 'backPage',
+		'click .next': 'nextPage'
+	},
+
 	collectionEvents: {
 		sync: 'actOnSync'
 	},
 
 	initialize: function initialize(options) {
 
-		this.collection = new _collectionsBrowseVODCollection2['default']({ genre: options.genre });
+		this.page = 0;
+
+		this.collection = new _collectionsBrowseVODCollection2['default']({ genre: options.genre, page: this.getOption('page') });
 	},
 
 	templateContext: function templateContext() {
 		return {
-			genre: this.getOption('genre')
+			genre: this.getOption('genre'),
+			items: this.collection.models
 		};
+	},
+
+	backPage: function backPage(e) {
+
+		e.preventDefault();
+
+		if (this.getOption('page') < 1) return;
+
+		this.page -= 1;
+
+		console.log('Go back a page to page ' + this.getOption('page'));
+
+		this.collection = new _collectionsBrowseVODCollection2['default']({ genre: this.getOption('genre'), page: this.getOption('page') });
+
+		this.collection.fetch({
+			success: this.render,
+			error: this.fetchError
+		});
+
+		this.recentlyPressed = 'back';
+	},
+
+	nextPage: function nextPage(e) {
+		e.preventDefault();
+
+		this.page += 1;
+
+		this.collection = new _collectionsBrowseVODCollection2['default']({ genre: this.getOption('genre'), page: this.getOption('page') });
+
+		this.collection.fetch({
+			success: this.render,
+			error: this.fetchError
+		});
+
+		console.log('Go next to page ' + this.getOption('page'));
+
+		this.recentlyPressed = 'next';
+	},
+
+	onRender: function onRender() {
+		if (this.getOption('recentlyPressed') != "") {
+			SpatialNavigation.focus('.' + this.getOption('recentlyPressed'));
+		}
 	},
 
 	/**
@@ -1524,9 +1630,9 @@ module.exports = '<div class="col-md-12 text-center">\n    <ul class="list-inlin
 },{}],30:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-fire" aria-hidden="true"></i> Popular Now</h2>\n<hr>\n\n<% _.each(collections, function(collection, cindex) { %>\n<div class="row">\n    <div class="popular-carousel">\n        <% _.each(collection, function(item, index) { %>\n        <div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img data-lazy="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n        <% }) %>\n    </div>\n</div>\n\n<% }); %>';
 },{}],31:[function(require,module,exports){
-module.exports = '<h2><i class="fa fa-search"></i> Search Results for <strong><%- search %></strong></h2>\n<hr>\n\n<div class="row search-results">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n\n</div>';
+module.exports = '<h2><i class="fa fa-search"></i> Search Results for <strong><%- search %></strong></h2>\n<hr>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n\n<div class="row search-results">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
 },{}],32:[function(require,module,exports){
-module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>\n<hr>\n<div id="shows-region"></div>';
+module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>\n<hr>\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n<div class="row shows">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
 },{}],33:[function(require,module,exports){
 module.exports = '<div class="row">\n    <div class="col-md-7">\n        <video class="player" controls preload="auto">\n            <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">\n        </video>\n    </div>\n\n    <div class="col-md-5 text-right video-description">\n        <h2><%- name %></h2>\n        <p><%- synopsis %></p>\n    </div>\n</div>';
 },{}],34:[function(require,module,exports){

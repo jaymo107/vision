@@ -20,6 +20,7 @@ $app->group(['prefix' => 'user'], function () use ($app) {
 $app->group(['prefix' => 'programmes'], function () use ($app) {
     $app->get('/', ['as' => 'programmes', 'uses' => 'ProgrammeController@getProgrammes']);
     $app->get('{id}', ['as' => 'programme', 'uses' => 'ProgrammeController@getProgramme']);
+    $app->post('{id}/rate', ['as' => 'programme', 'uses' => 'ProgrammeController@rateProgramme']);
 });
 
 $app->group(['prefix' => 'recommendations'], function () use ($app) {

@@ -9,8 +9,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Dislike;
+use Faker\Provider\cs_CZ\DateTime;
 use Illuminate\Http\JsonResponse;
 use GuzzleHttp as Guzzle;
+use Illuminate\Http\Request;
+use App\Like;
+use Illuminate\Support\Facades\DB;
 
 class ProgrammeController
 {
@@ -46,8 +51,68 @@ class ProgrammeController
     }
 
     /**
+     * Rate the programme for the current user.
+     * @return array
+     */
+    public function rateProgramme($id, Request $request)
+    {
+        $type = $request->request->get('type');
+
+        $userId = 1;
+
+        if ($type == 'like') {
+            $dislikeExists = Dislike::where([
+                'programme_id' => $id,
+                'user_id' => $userId
+            ])->first();
+
+            if ($dislikeExists !== null) {
+                // A like exists, so remove it
+                Dislike::where([
+                    'programme_id' => $id,
+                    'user_id' => $userId
+                ])->delete();
+            }
+            // Check if a like already exists
+            $like = Like::firstOrNew([
+                'programme_id' => $id,
+                'user_id' => $userId
+            ]);
+
+            $like->save();
+        }
+
+        if ($type == 'dislike') {
+            $likeExists = Like::where([
+                'programme_id' => $id,
+                'user_id' => $userId
+            ])->first();
+
+            if ($likeExists !== null) {
+                // A like exists, so remove it
+                Like::where([
+                    'programme_id' => $id,
+                    'user_id' => $userId
+                ])->delete();
+            }
+
+            $dislike = Dislike::firstOrNew([
+                'programme_id' => $id,
+                'user_id' => $userId
+            ]);
+
+            $dislike->save();
+        }
+
+        return [
+            'response_num' => 200,
+            'type' => $type,
+            'programme_id' => $id
+        ];
+    }
+
+    /**
      * Return multiple programmes.
-     * @param $id
      * @return JsonResponse
      */
     public function getProgrammes()

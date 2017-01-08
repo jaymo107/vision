@@ -120,4 +120,33 @@ class ProgrammeController
         return new JsonResponse([], 200);
     }
 
+    public function getRating($id)
+    {
+        $type = '';
+
+        // Check if you like or dislike the current programme
+        $isLike = Like::where([
+            'programme_id' => $id,
+            'user_id' => 1
+        ])->first();
+
+        $isDislike = Dislike::where([
+            'programme_id' => $id,
+            'user_id' => 1
+        ])->first();
+
+        if($isLike) {
+            $type = 'like';
+        }
+
+        if($isDislike) {
+            $type = 'dislike';
+        }
+
+        return [
+            'response_num' => 200,
+            'type' => $type
+        ];
+    }
+
 }

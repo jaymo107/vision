@@ -1,4 +1,4 @@
-<div class="row">
+<p class="row">
     <div class="col-md-7">
         <video class="player" controls preload="auto">
             <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">
@@ -6,7 +6,36 @@
     </div>
 
     <div class="col-md-5 text-right video-description">
+        <img
+                src="no_poster.jpg" style="max-height: 120px; margin-left: 25px;"
+                class="pull-right img-responsive img-thumbnail poster">
         <h2><%- name %></h2>
-        <p><%- synopsis %></p>
+        <p><h3 style="color:goldenrod;">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <strong class="imdb-rating">-</strong>
+
+            <small> / 10</small></h3></p>
+
+        <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 20px;"><%- synopsis %>
+            <strong><span
+                class="text-muted imdb-rated"></span></strong></div>
+
+        <div class="col-md-12 text-center small" style="margin-top: 10px; margin-bottom: 20px;">
+            <span class="imdb-actors"></span> | <span class="imdb-genres"></span>
+        </div>
+
+        <div class="col-md-6">
+            <button class="btn btn-block btn-success btn-outline rating like">
+            <i class="fa fa-thumbs-up"></i></button>
+        </div>
+
+        <div class="col-md-6">
+            <button class="btn btn-block btn-danger btn-outline rating dislike">
+                <i class="fa fa-thumbs-down"></i></button></div>
+
+        <div class="col-md-12">
+            <p class="your-rating panel-body text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></p>
+        </div>
+
     </div>
 </div>

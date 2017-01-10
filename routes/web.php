@@ -19,10 +19,19 @@ $app->group(['prefix' => 'user'], function () use ($app) {
 
 $app->group(['prefix' => 'programmes'], function () use ($app) {
     $app->get('/', ['as' => 'programmes', 'uses' => 'ProgrammeController@getProgrammes']);
-    $app->get('{id}', ['as' => 'programme', 'uses' => 'ProgrammeController@getProgramme']);
-    $app->post('{id}/rate', ['as' => 'programme', 'uses' => 'ProgrammeController@rateProgramme']);
+
+    $app->group(['prefix' => '{id}'], function () use ($app) {
+        $app->get('/', ['as' => 'programme', 'uses' => 'ProgrammeController@getProgramme']);
+        $app->post('/rate', ['as' => 'programme', 'uses' => 'ProgrammeController@rateProgramme']);
+        $app->get('/rating', ['as' => 'programme', 'uses' => 'ProgrammeController@getRating']);
+    });
+
 });
 
 $app->group(['prefix' => 'recommendations'], function () use ($app) {
     $app->get('{user}', ['as' => 'recommendations', 'uses' => 'RecommendationsController@getRecommendations']);
+});
+
+$app->group(['prefix' => 'meta'], function() use ($app) {
+    $app->post('{programme_id}', ['as' => 'meta', 'uses' => 'MetaController@storeMeta']);
 });

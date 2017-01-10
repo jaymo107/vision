@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -11,8 +12,6 @@ class HomeController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -21,11 +20,13 @@ class HomeController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
+
+
         return view('index')->with([
-                'userId' => $this->userId,
-                'apiKey' => $this->apiKey
-            ]);
+            'userId' => $this->userId,
+            'apiKey' => $this->apiKey
+        ]);
     }
 }

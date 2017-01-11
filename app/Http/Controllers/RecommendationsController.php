@@ -111,13 +111,13 @@ class RecommendationsController
                 // matches
 
                 // Try to find a match in the genres
-                $currentScore += $this->matchGenre($currentProgramme, $pgm);
+                $currentScore += $this->matchGenres($currentProgramme, $pgm);
                 // Try to find a match in the actors
-                $currentScore += $this->matchActor($currentProgramme, $pgm);
+                $currentScore += $this->matchActors($currentProgramme, $pgm);
                 // Try to find a match with a similar rating (PG, 15, 18 etc)
                 $currentScore += $this->matchRated($currentProgramme, $pgm);
                 // Try to match a writer
-                $currentScore += $this->matchWriter($currentProgramme, $pgm);
+                $currentScore += $this->matchWriters($currentProgramme, $pgm);
             }
 
             // Get the meta from our database
@@ -136,7 +136,7 @@ class RecommendationsController
      * @param Programme $programmeB
      * @return int
      */
-    private function matchGenre($programmeA, $programmeB)
+    private function matchGenres($programmeA, $programmeB)
     {
         $aGenres = Guzzle\json_decode($programmeA->genres);
         $bGenres = Guzzle\json_decode($programmeB->genres);
@@ -149,7 +149,7 @@ class RecommendationsController
      * @param Programme $programmeB
      * @return int
      */
-    private function matchActor($programmeA, $programmeB)
+    private function matchActors($programmeA, $programmeB)
     {
         $aActors = Guzzle\json_decode($programmeA->actors);
         $bActors = Guzzle\json_decode($programmeB->actors);
@@ -164,7 +164,7 @@ class RecommendationsController
      */
     private function matchRated($programmeA, $programmeB)
     {
-        return 0;
+        return ($programmeA->rating == $programmeB->rating) ? 1 : 0;
     }
 
     /**
@@ -172,9 +172,12 @@ class RecommendationsController
      * @param Programme $programmeB
      * @return int
      */
-    private function matchWriter($programmeA, $programmeB)
+    private function matchWriters($programmeA, $programmeB)
     {
-        return 0;
+        $aWriters = Guzzle\json_decode($programmeA->writers);
+        $bWriters = Guzzle\json_decode($programmeB->writers);
+
+        return count(array_intersect($aWriters, $bWriters));
     }
 
 }

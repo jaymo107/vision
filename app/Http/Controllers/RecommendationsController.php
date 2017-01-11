@@ -80,16 +80,49 @@ class RecommendationsController
         // Loop through each programme in your history
         foreach ($history as $programme) {
 
-            $programme = Programme::find($programme->programme_id);
+            $currentProgramme = Programme::find($programme->programme_id);
 
-            if($programme == null) {
+            if ($currentProgramme == null) {
                 continue;
             }
 
-            // Get the meta from our database
-            $data[] = $programme;
-            // Compare this programme with all of the others
+            // Compare this programme with every other programme in the table
+            $allProgrammes = Programme::all();
 
+            // Keep track on the highest score so far.
+            $bestScoringSoFar = 0;
+
+            // Keep track on the current best programme
+            $bestProgrammeSoFar = null;
+
+            // Loop over every programme and compare it to the current programme in your history
+            // determine the score for each of the programmes.
+            // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
+            // regardless
+            foreach ($allProgrammes as $pgm) {
+
+                $currentScore = 0;
+
+                if ($pgm->programme_id == $currentProgramme->programme_id) {
+                    continue;
+                }
+
+                // Compare $currentProgramme and $pgm and determine the score by counting the number of
+                // matches
+
+                // Try to find a match in the genres
+
+                // Try to find a match in the actors
+
+                // Try to find a match with a similar rating (PG, 15, 18 etc)
+
+                // Try to match a writer
+
+            }
+
+            // Get the meta from our database
+            $data[] = $currentProgramme;
+            // Compare this programme with all of the others
         }
 
         return [

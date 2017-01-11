@@ -111,13 +111,13 @@ class RecommendationsController
                 // matches
 
                 // Try to find a match in the genres
-
+                $currentScore += $this->matchGenre($currentProgramme, $pgm);
                 // Try to find a match in the actors
-
+                $currentScore += $this->matchActor($currentProgramme, $pgm);
                 // Try to find a match with a similar rating (PG, 15, 18 etc)
-
+                $currentScore += $this->matchRated($currentProgramme, $pgm);
                 // Try to match a writer
-
+                $currentScore += $this->matchWriter($currentProgramme, $pgm);
             }
 
             // Get the meta from our database
@@ -129,6 +129,49 @@ class RecommendationsController
             'ret_code' => 200,
             'data' => $data
         ];
+    }
+
+    /**
+     * @param Programme $programmeA
+     * @param Programme $programmeB
+     * @return int
+     */
+    private function matchGenre($programmeA, $programmeB)
+    {
+        $aGenres = Guzzle\json_decode($programmeA->genres);
+        $bGenres = Guzzle\json_decode($programmeB->genres);
+
+        return count(array_intersect($aGenres, $bGenres));
+    }
+
+    /**
+     * @param Programme $programmeA
+     * @param Programme $programmeB
+     * @return int
+     */
+    private function matchActor($programmeA, $programmeB)
+    {
+        return 0;
+    }
+
+    /**
+     * @param Programme $programmeA
+     * @param Programme $programmeB
+     * @return int
+     */
+    private function matchRated($programmeA, $programmeB)
+    {
+        return 0;
+    }
+
+    /**
+     * @param Programme $programmeA
+     * @param Programme $programmeB
+     * @return int
+     */
+    private function matchWriter($programmeA, $programmeB)
+    {
+        return 0;
     }
 
 }

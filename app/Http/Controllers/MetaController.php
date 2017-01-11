@@ -9,6 +9,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Programme;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MetaController extends Controller
@@ -28,9 +30,33 @@ class MetaController extends Controller
      */
     public function storeMeta($programme_id, Request $request)
     {
+        $data = $request->request;
+
+        $programme = Programme::find($programme_id);
+
+        if ($programme == null) {
+            // Create the programme
+            $programme = new Programme([
+                'programme_id' => $programme_id,
+                'imdb_id' => $data->get('imdb_id'),
+                'type' => $data->get('type'),
+                'series' => $data->get('series'),
+                'genres' => $this->convertToJson($data->get('genres')),
+                'actors' => $this->convertToJson($data->get('actors')),
+                'poster' => $data->get('poster'),
+                'rated' => $data->get('rated'),
+                'rating' => $data->get('rating'),
+                'writers' => $this->convertToJson($data->get('writers')),
+                'director' => $data->get('director')
+            ]);
+
+            $programme->save();
+        }
+
+
         return [
             'response_num' => 200,
-            'data' => ['programme_id' => $programme_id/** Return the data that was stored */]
+            'data' => [$programme->toArray()],
         ];
     }
 
@@ -41,9 +67,29 @@ class MetaController extends Controller
      */
     public function getMeta($programme_id)
     {
+
+        $programme = Programme::find($programme_id);
+
+        $data = $programme->toArray();
+        $data['likes'] = $programme->getLikes();
+        $data['dislikes'] = $programme->getDislikes();
+        $data['writers'] = \GuzzleHttp\json_decode($data['writers']);
+        $data['actors'] = \GuzzleHttp\json_decode($data['actors']);
+        $data['genres'] = \GuzzleHttp\json_decode($data['genres']);
+
         return [
             'response_num' => 200,
-            'data' => []
+            'data' => $data
         ];
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    private function convertToJson($data)
+    {
+        // Explode the data by comma
+        return \GuzzleHttp\json_encode(explode(", ", $data));
     }
 }

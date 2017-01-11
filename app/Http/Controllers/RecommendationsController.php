@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Programme;
 use Illuminate\Http\JsonResponse;
 use GuzzleHttp as Guzzle;
 
@@ -16,10 +17,12 @@ class RecommendationsController
 {
 
     protected $client;
+    private $history;
 
     public function __construct()
     {
         $this->client = new Guzzle\Client();
+        $this->history = null;
     }
 
     /**
@@ -38,14 +41,10 @@ class RecommendationsController
             ];
         }
 
-
         // Use our algorithm
-        
-        return [
-                'ret_code' => 200,
-                'data' => []
-            ];
 
+
+        return $this->generateRecommendations($user);
     }
 
     /**
@@ -63,7 +62,40 @@ class RecommendationsController
 
         $content = Guzzle\json_decode($response->getBody()->getContents());
 
+        $this->history = $content->data;
+
         return (!!count($content->data));
+    }
+
+    private function generateRecommendations($user)
+    {
+        $data = array();
+        // The number of recommendations to generate
+        $numOfRecommendations = 6;
+
+        // STEP 1: Get the history
+        // Take 6 of the history for now
+        $history = array_slice($this->history, 0, $numOfRecommendations);
+
+        // Loop through each programme in your history
+        foreach ($history as $programme) {
+
+            $programme = Programme::find($programme->programme_id);
+
+            if($programme == null) {
+                continue;
+            }
+
+            // Get the meta from our database
+            $data[] = $programme;
+            // Compare this programme with all of the others
+
+        }
+
+        return [
+            'ret_code' => 200,
+            'data' => $data
+        ];
     }
 
 }

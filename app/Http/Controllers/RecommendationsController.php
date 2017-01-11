@@ -151,7 +151,10 @@ class RecommendationsController
      */
     private function matchActor($programmeA, $programmeB)
     {
-        return 0;
+        $aActors = Guzzle\json_decode($programmeA->actors);
+        $bActors = Guzzle\json_decode($programmeB->actors);
+
+        return count(array_intersect($aActors, $bActors));
     }
 
     /**

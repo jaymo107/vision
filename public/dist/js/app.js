@@ -1638,6 +1638,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         'change': 'render'
     },
 
+    addSlashes: function addSlashes(str) {
+        return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+    },
+
     initialize: function initialize(options) {
         var _this = this;
 
@@ -1653,10 +1657,13 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
             success: function success(data) {
                 console.log(data);
 
-                console.log('SEARCH IMDB FOR: ');
-                console.log(data.get('name'));
+                var programme_name = data.get('name').includes('New: ') ? data.get('name').replace('New: ', '') : data.get('name');
 
-                var programme_name = data.get('name').replace(/[^\w\s]/gi, '');
+                programme_name = _this.addSlashes(programme_name); //programme_name.replace(/"|'/g, '');
+                var programme_id = data.get('id');
+
+                console.log('SEARCH IMDB FOR: ');
+                console.log(programme_name);
 
                 _imdbApi2['default'].get(programme_name).then(function (data) {
                     console.log('[IMDB] Found from IDMB!');
@@ -1670,7 +1677,28 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                         rated: data.rated
                     };
 
+                    // Store this metadata in the database if it doesn't already exist
+                    console.log('[META] Preparing post request to /meta/' + programme_id);
+
+                    _jquery2['default'].post('/meta/' + programme_id, {
+                        'imdb_id': data.imdbid,
+                        'actors': data.actors,
+                        'genres': data.genres,
+                        'poster': data.poster,
+                        'rating': data.rating,
+                        'rated': data.rated,
+                        'series': data.series ? 1 : 0, // var i = result ? 1 : 0;
+                        'type': data.type,
+                        'writers': data.writer,
+                        'director': data.director
+                    }, function (response) {
+                        console.log('Storing request data: ');
+                        console.log(response);
+                    });
+
                     console.log('[IMDB] Render the imdb meta to the view.');
+
+                    console.log(data);
 
                     _this.renderMeta(_this.imdbMeta);
 

@@ -46,6 +46,7 @@ class Programme extends Model
     public $incrementing = false;
     protected $fillable = ['programme_id', 'imdb_id', 'type', 'series', 'genres', 'actors', 'poster', 'rated',
         'rating', 'writers', 'director'];
+    protected $appends = ['likes', 'dislikes'];
 
     public function getLikes()
     {
@@ -57,5 +58,15 @@ class Programme extends Model
     {
         // Return the amount of dislikes for this programme
         return Dislike::whereProgrammeId($this->programme_id)->count();
+    }
+
+    public function getLikesAttribute()
+    {
+        return $this->getLikes();
+    }
+
+    public function getDislikesAttribute()
+    {
+        return $this->getDislikes();
     }
 }

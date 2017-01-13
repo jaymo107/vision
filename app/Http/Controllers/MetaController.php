@@ -77,8 +77,6 @@ class MetaController extends Controller
         }
 
         $data = $programme->toArray();
-        $data['likes'] = $programme->getLikes();
-        $data['dislikes'] = $programme->getDislikes();
         $data['writers'] = implode(", ", \GuzzleHttp\json_decode($data['writers']));
         $data['actors'] = implode(", ", \GuzzleHttp\json_decode($data['actors']));
         $data['genres'] = implode(", ", \GuzzleHttp\json_decode($data['genres']));

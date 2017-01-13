@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 
 use App\Programme;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MetaController extends Controller
@@ -70,12 +69,19 @@ class MetaController extends Controller
 
         $programme = Programme::find($programme_id);
 
+        if ($programme == null) {
+            return [
+                'response_num' => 404,
+                'data' => []
+            ];
+        }
+
         $data = $programme->toArray();
         $data['likes'] = $programme->getLikes();
         $data['dislikes'] = $programme->getDislikes();
-        $data['writers'] = \GuzzleHttp\json_decode($data['writers']);
-        $data['actors'] = \GuzzleHttp\json_decode($data['actors']);
-        $data['genres'] = \GuzzleHttp\json_decode($data['genres']);
+        $data['writers'] = implode(", ", \GuzzleHttp\json_decode($data['writers']));
+        $data['actors'] = implode(", ", \GuzzleHttp\json_decode($data['actors']));
+        $data['genres'] = implode(", ", \GuzzleHttp\json_decode($data['genres']));
 
         return [
             'response_num' => 200,

@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Programme;
-use Illuminate\Http\JsonResponse;
+
 use GuzzleHttp as Guzzle;
 
 class RecommendationsController
@@ -27,6 +27,7 @@ class RecommendationsController
 
     /**
      * Return the basic Json
+     * @param $user
      * @return array
      */
     public function getRecommendations($user)
@@ -64,23 +65,32 @@ class RecommendationsController
 
         $this->history = $content->data;
 
-        return (!!count($content->data));
+        return (count($content->data) > 0);
     }
 
+    /**
+     * @param $user
+     * @return array
+     */
     private function generateRecommendations($user)
     {
         $data = array();
         // The number of recommendations to generate
-        $numOfRecommendations = 6;
+        $numOfRecommendations = 4;
 
         // STEP 1: Get the history
         // Take 6 of the history for now
         $history = array_slice($this->history, 0, $numOfRecommendations);
 
+        $programmeScores = [];
+
+
         // Loop through each programme in your history
         foreach ($history as $programme) {
 
+            // Locate the programme in our table
             $currentProgramme = Programme::find($programme->programme_id);
+
 
             if ($currentProgramme == null) {
                 continue;
@@ -95,6 +105,9 @@ class RecommendationsController
             // Keep track on the current best programme
             $bestProgrammeSoFar = null;
 
+            $allScores = [];
+
+
             // Loop over every programme and compare it to the current programme in your history
             // determine the score for each of the programmes.
             // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
@@ -103,12 +116,12 @@ class RecommendationsController
 
                 $currentScore = 0;
 
+                // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
                     continue;
                 }
 
-                // Compare $currentProgramme and $pgm and determine the score by counting the number of
-                // matches
+                // Compare $currentProgramme and $pgm and determine the score by counting the number of matches.
 
                 // Try to find a match in the genres
                 $currentScore += $this->matchGenres($currentProgramme, $pgm);
@@ -118,12 +131,32 @@ class RecommendationsController
                 $currentScore += $this->matchRated($currentProgramme, $pgm);
                 // Try to match a writer
                 $currentScore += $this->matchWriters($currentProgramme, $pgm);
+                // Try to match the director
+                $currentScore += $this->matchDirector($currentProgramme, $pgm);
+
+                $allScores[] = $currentScore;
+
+                // Compare the current score with the best score so far
+                if ($currentScore > $bestScoringSoFar) {
+                    // Update the best score to this one, and set the programme as well
+                    $bestScoringSoFar = $currentScore;
+                    // Set the programme too.
+                    $bestProgrammeSoFar = $pgm;
+                }
+
+
             }
 
+            $programmeScores[] = $allScores;
+
+            // TODO: Add the best scoring set to the database, for this user so save it.
+
             // Get the meta from our database
-            $data[] = $currentProgramme;
-            // Compare this programme with all of the others
+            $data[] = $bestProgrammeSoFar;
         }
+
+
+        dd($programmeScores);
 
         return [
             'ret_code' => 200,
@@ -177,7 +210,26 @@ class RecommendationsController
         $aWriters = Guzzle\json_decode($programmeA->writers);
         $bWriters = Guzzle\json_decode($programmeB->writers);
 
+        if ((count($aWriters) == 1 && $aWriters[0] == 'N/A') || (count($bWriters) == 1 && $bWriters[0] == 'N/A')) {
+            return 0;
+        }
+
         return count(array_intersect($aWriters, $bWriters));
+    }
+
+    /**
+     * @param Programme $programmeA
+     * @param Programme $programmeB
+     * @return int
+     */
+    private function matchDirector($programmeA, $programmeB)
+    {
+
+        if ($programmeA->director == 'N/A' || $programmeB->director == 'N\A') {
+            return 0;
+        }
+
+        return ($programmeA->director == $programmeB->director) ? 1 : 0;
     }
 
 }

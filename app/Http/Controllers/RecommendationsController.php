@@ -154,7 +154,7 @@ class RecommendationsController
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
         }
-        
+
         usort($data, function ($a, $b) {
             return $a['likes'] < $b['likes'];
         });

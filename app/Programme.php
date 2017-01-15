@@ -45,7 +45,7 @@ class Programme extends Model
     protected $primaryKey = "programme_id";
     public $incrementing = false;
     protected $fillable = ['programme_id', 'imdb_id', 'type', 'series', 'genres', 'actors', 'poster', 'rated',
-        'rating', 'writers', 'director'];
+        'rating', 'writers', 'director', 'image', 'programme_name'];
     protected $appends = ['likes', 'dislikes'];
 
     public function getLikes()

@@ -46,7 +46,9 @@ class MetaController extends Controller
                 'rated' => $data->get('rated'),
                 'rating' => $data->get('rating'),
                 'writers' => $this->convertToJson($data->get('writers')),
-                'director' => $data->get('director')
+                'director' => $data->get('director'),
+                'image' => $data->get('image'),
+                'programme_name' => $data->get('programme_name')
             ]);
 
             $programme->save();

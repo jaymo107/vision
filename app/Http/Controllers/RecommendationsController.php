@@ -116,6 +116,8 @@ class RecommendationsController
 
                 $currentScore = 0;
 
+                // TODO: Check programme hasn't already been watched previously
+
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
                     continue;
@@ -143,8 +145,6 @@ class RecommendationsController
                     // Set the programme too.
                     $bestProgrammeSoFar = $pgm;
                 }
-
-
             }
 
             $programmeScores[] = $allScores;
@@ -154,9 +154,10 @@ class RecommendationsController
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
         }
-
-
-        dd($programmeScores);
+        
+        usort($data, function ($a, $b) {
+            return $a['likes'] < $b['likes'];
+        });
 
         return [
             'ret_code' => 200,

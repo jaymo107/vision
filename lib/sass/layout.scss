@@ -6,7 +6,7 @@
 @import "./node_modules/slick-carousel/slick/slick.scss";
 @import "./node_modules/slick-carousel/slick/slick-theme.scss";
 
-*{
+* {
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter;
 }
@@ -46,20 +46,20 @@
 .btn-success.btn-outline:focus,
 .btn-info.btn-outline:focus,
 .btn-warning.btn-outline:focus,
-.btn-danger.btn-outline:focus{
+.btn-danger.btn-outline:focus {
   color: #fff;
 }
 
-h2, h3, h1, h4{
+h2, h3, h1, h4 {
   font-weight: lighter;
 }
 
-.logo{
+.logo {
   max-width: 300px;
   margin-top: 20px;
 }
 
-.slick-prev, .slick-next{
+.slick-prev, .slick-next {
   display: none;
   background: #333;
   padding: 100px 20px;
@@ -68,36 +68,36 @@ h2, h3, h1, h4{
   color: white;
   font-size: 50px;
   text-decoration: none;
-  transition:background .3s;
+  transition: background .3s;
 
-  &:focus{
+  &:focus {
     background: #777;
     color: white;
     text-decoration: none;
   }
-  
-  &:hover{
+
+  &:hover {
     background: #777;
     text-decoration: none;
     color: #fff;;
   }
 }
 
-.search{
+.search {
   padding: 30px 20px;
   font-size: 24px;
   margin-top: 20px;
 }
 
-.thumbnail{
+.thumbnail {
 
   height: 260px;
-  transition:background-color .3s;
-  padding:15px;
-  background:none;
+  transition: background-color .3s;
+  padding: 15px;
+  background: none;
   background-size: cover;
 
-  &.arrow{
+  &.arrow {
     height: initial;
     text-align: center;
     background: #337ab7;
@@ -106,53 +106,97 @@ h2, h3, h1, h4{
     margin: -5px;
     margin-bottom: 30px;
 
-    &:focus{
+    &:focus {
       color: #337ab7;
     }
   }
 
-  & span{
+  & span {
     position: relative;
-    top:10px;
+    top: 10px;
   }
 
-  &:focus{
-    background-color:rgba(0,0,0,.1);
+  &:focus {
+    background-color: rgba(0, 0, 0, .1);
   }
 
-  & img{
+  & img {
     width: 200px;
     height: 112px;
   }
 }
 
-*{
+* {
   transition: background-color .5
 }
 
 *:focus {
   outline: none !important;
-  border:1px solid red;
+  border: 1px solid red;
   box-shadow: 0 0 10px #719ECE;
-  background-color:rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
+nav {
 
-nav{
+  & li {
 
-  & li{
-
-    & a{
+    & a {
       width: 300px;
-      margin-top:20px;
+      margin-top: 20px;
       padding: 0px 10px 10px 10px !important;
-      font-weight:700;
+      font-weight: 700;
 
-      &:focus{
-        background:none;
+      &:focus {
+        background: none;
       }
 
     }
 
   }
+}
+
+.background-image {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  width: 223px;
+  height: 260px;
+  margin-left: 20px;
+  -moz-filter: blur(20px);
+  -o-filter: blur(20px);
+  -ms-filter: blur(20px);
+  filter: blur(20px);
+  opacity: .5;
+  overflow: hidden;
+
+  &:focus, :hover {
+    background-size: cover;
+    opacity: .8;
+    -moz-filter: blur(20px);
+    -o-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
+  }
+}
+
+.programme_thumb {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: #000;
+  padding: 10px;
+  border: none;
+
+  & h4 {
+    font-weight: bold;
+  }
+
+  &:focus, :hover {
+    color: #000;
+    border: 7px black solid;
+  }
+}
+
+hr {
+  opacity: .1;
 }

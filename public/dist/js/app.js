@@ -355,10 +355,6 @@ var _backbone = require('backbone');
 
 var _backbone2 = _interopRequireDefault(_backbone);
 
-var _backboneMarionette = require('backbone.marionette');
-
-var _backboneMarionette2 = _interopRequireDefault(_backboneMarionette);
-
 var _modelsProgramme = require('../models/Programme');
 
 var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
@@ -367,7 +363,7 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Get any results from the current search criteria
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-    url: 'http://visionapp.dev/recommendations/1',
+    url: 'http://visionapp.dev/recommendations/2380',
 
     /** @type {Backbone.Model} The Model for the Programme structure */
     model: _modelsProgramme2['default'],
@@ -391,7 +387,6 @@ exports['default'] = _backbone2['default'].Collection.extend({
         console.log('Recommendations data:');
         console.log(data);
     },
-
     /**
      * When the programmes have failed to be fetched from
      * the vision server.
@@ -403,7 +398,7 @@ exports['default'] = _backbone2['default'].Collection.extend({
 });
 module.exports = exports['default'];
 
-},{"../models/Programme":11,"backbone":61,"backbone.marionette":59}],6:[function(require,module,exports){
+},{"../models/Programme":11,"backbone":61}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -679,11 +674,11 @@ module.exports = exports["default"];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
+    value: true
 });
 
 function _interopRequireDefault(obj) {
-	return obj && obj.__esModule ? obj : { 'default': obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _backbone = require('backbone');
@@ -695,32 +690,35 @@ var _jquery = require('jquery');
 var _jquery2 = _interopRequireDefault(_jquery);
 
 exports['default'] = _backbone2['default'].Model.extend({
-	defaults: {
-		id: null,
-		isPlaying: false,
-		elapsedTime: 0,
-		name: '',
-		synopsis: '',
-		channel_name: ''
-	},
+    defaults: {
+        id: null,
+        isPlaying: false,
+        elapsedTime: 0,
+        name: '',
+        synopsis: '',
+        channel_name: '',
+        image: '',
+        programme_name: ''
+    },
 
-	parse: function parse(response) {
+    parse: function parse(response) {
 
-		var data = response.data[0];
+        var data = response.data[0];
 
-		return {
-			name: data.p_name,
-			synopsis: data.p_synopsis,
-			channel_name: data.channel_name
-		};
-	},
+        return {
+            name: data.p_name,
+            synopsis: data.p_synopsis,
+            channel_name: data.channel_name,
+            image: data.image
+        };
+    },
 
-	initialize: function initialize(options) {
-		console.log(options);
-		this.id = options.id;
-		console.log("ID SET to: " + this.id);
-		this.url = 'http://vision.lancs.ac.uk:9110/modules/videometa/get_video_meta?programme_id=' + this.id + '&timestamp=1479981412.276&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&';
-	}
+    initialize: function initialize(options) {
+        console.log(options);
+        this.id = options.id;
+        console.log("ID SET to: " + this.id);
+        this.url = 'http://vision.lancs.ac.uk:9110/modules/videometa/get_video_meta?programme_id=' + this.id + '&timestamp=1479981412.276&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&';
+    }
 });
 module.exports = exports['default'];
 
@@ -1620,7 +1618,9 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         genres: '',
         poster: '',
         rating: '',
-        rated: ''
+        rated: '',
+        likes: 0,
+        dislikes: 0
     },
 
     events: {
@@ -1658,51 +1658,86 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                 console.log(data);
 
                 var programme_name = data.get('name').includes('New: ') ? data.get('name').replace('New: ', '') : data.get('name');
-
-                programme_name = _this.addSlashes(programme_name); //programme_name.replace(/"|'/g, '');
+                programme_name = programme_name.replace(/["']/g, "");
+                //programme_name = this.addSlashes(programme_name);//programme_name.replace(/"|'/g, '');
                 var programme_id = data.get('id');
+                var programme_image = data.get('image');
+                var unescaped_name = data.get('name');
+                var model = data;
 
-                console.log('SEARCH IMDB FOR: ');
-                console.log(programme_name);
+                // Check if the meta data already exists on our end
+                _jquery2['default'].get('/meta/' + programme_id, function (response) {
 
-                _imdbApi2['default'].get(programme_name).then(function (data) {
-                    console.log('[IMDB] Found from IDMB!');
+                    if (response.response_num == 200) {
+                        console.log('This programme exists in our db');
 
-                    _this.imdbMeta = {
-                        imdbid: data.imdbid,
-                        actors: data.actors,
-                        genres: data.genres,
-                        poster: data.poster,
-                        rating: data.rating,
-                        rated: data.rated
-                    };
+                        var _data = response.data;
 
-                    // Store this metadata in the database if it doesn't already exist
-                    console.log('[META] Preparing post request to /meta/' + programme_id);
+                        _this.imdbMeta = {
+                            imdbid: _data.imdb_id,
+                            actors: _data.actors,
+                            genres: _data.genres,
+                            poster: _data.poster,
+                            rating: _data.rating,
+                            rated: _data.rated,
+                            likes: _data.likes,
+                            dislikes: _data.dislikes
+                        };
 
-                    _jquery2['default'].post('/meta/' + programme_id, {
-                        'imdb_id': data.imdbid,
-                        'actors': data.actors,
-                        'genres': data.genres,
-                        'poster': data.poster,
-                        'rating': data.rating,
-                        'rated': data.rated,
-                        'series': data.series ? 1 : 0, // var i = result ? 1 : 0;
-                        'type': data.type,
-                        'writers': data.writer,
-                        'director': data.director
-                    }, function (response) {
-                        console.log('Storing request data: ');
-                        console.log(response);
+                        _this.renderMeta(_this.imdbMeta);
+                        return;
+                    }
+
+                    console.log('Doesnt exist, so query the imdb api');
+                    console.log('SEARCH IMDB FOR: ');
+                    console.log(programme_name);
+
+                    _imdbApi2['default'].getReq({ name: programme_name }, function (err, data) {
+                        console.log('[IMDB] Found from IDMB!');
+
+                        console.log('Error from IMDB: ');
+                        console.log(err);
+
+                        _this.imdbMeta = {
+                            imdbid: data.imdbid,
+                            actors: data.actors,
+                            genres: data.genres,
+                            poster: data.poster,
+                            rating: data.rating,
+                            rated: data.rated
+                        };
+
+                        // Store this metadata in the database if it doesn't already exist
+                        console.log('[META] Preparing post request to /meta/' + programme_id);
+
+                        console.log(model);
+
+                        _jquery2['default'].post('/meta/' + programme_id, {
+                            'imdb_id': data.imdbid,
+                            'actors': data.actors,
+                            'genres': data.genres,
+                            'poster': data.poster,
+                            'rating': data.rating,
+                            'rated': data.rated,
+                            'series': data.series ? 1 : 0, // var i = result ? 1 : 0;
+                            'type': data.type,
+                            'writers': data.writer,
+                            'director': data.director,
+                            'programme_name': model.get('name'),
+                            'image': model.get('image'),
+                            'likes': 0,
+                            'dislikes': 0
+                        }, function (response) {
+                            console.log('Storing request data: ');
+                            console.log(response);
+                        });
+
+                        console.log('[IMDB] Render the imdb meta to the view.');
+
+                        _this.renderMeta(_this.imdbMeta);
+
+                        console.log(_this.getOption('imdbMeta'));
                     });
-
-                    console.log('[IMDB] Render the imdb meta to the view.');
-
-                    console.log(data);
-
-                    _this.renderMeta(_this.imdbMeta);
-
-                    console.log(_this.getOption('imdbMeta'));
                 });
             }
         });
@@ -1715,6 +1750,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
             this.$('.poster').attr('src', meta.poster);
         }
 
+        //if (meta.likes > 0 && meta.dislikes > 0) {
+        this.$('.like-amount').html(meta.likes);
+        this.$('.dislike-amount').html(meta.dislikes);
+        //}
+
         this.$('.imdb-rating').html(meta.rating);
         this.$('.imdb-genres').html(meta.genres);
         this.$('.imdb-actors').html(meta.actors);
@@ -1726,6 +1766,8 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'like' }, function (data) {
             console.log(data);
             _this2.updateLikeDislikeButtons(data.type);
+
+            _this2.refreshLikesOrDislikes(_this2.model.get('id'));
 
             var n = (0, _noty2['default'])({
                 layout: 'top',
@@ -1754,6 +1796,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         var $like = this.$('.rating.like');
 
         if (type == 'like') {
+            // Increment the like button
             $dislike.removeAttr('disabled');
             $like.removeClass('btn-outline');
         } else {
@@ -1762,14 +1805,25 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         }
     },
 
-    dislike: function dislike(e) {
+    refreshLikesOrDislikes: function refreshLikesOrDislikes(programme_id) {
         var _this3 = this;
+
+        _jquery2['default'].get('/meta/' + programme_id, function (response) {
+            _this3.$('.like-amount').html(response.data.likes);
+            _this3.$('.dislike-amount').html(response.data.dislikes);
+        });
+    },
+
+    dislike: function dislike(e) {
+        var _this4 = this;
 
         console.log('Dislike this video');
 
         _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'dislike' }, function (data) {
             console.log(data.type);
-            _this3.updateLikeDislikeButtons(data.type);
+            _this4.updateLikeDislikeButtons(data.type);
+
+            _this4.refreshLikesOrDislikes(_this4.model.get('id'));
 
             var n = (0, _noty2['default'])({
                 layout: 'top',
@@ -1783,7 +1837,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     },
 
     onDomRefresh: function onDomRefresh() {
-        var _this4 = this;
+        var _this5 = this;
 
         var controls = ["<div class='plyr__controls'>", "<span class='plyr__progress'>", "<label for='seek{id}' class='plyr__sr-only'>Seek</label>", "<input id='seek{id}' class='plyr__progress--seek' type='range' min='0' max='100' step='0.1' value='0'" + " data-plyr='seek' tabIndex='-1'>", "<progress class='plyr__progress--played' max='100' value='0' role='presentation'></progress>", "<progress class='plyr__progress--buffer' max='100' value='0'>", "<span>0</span>% buffered", "</progress>", "<span class='plyr__tooltip'>00:00</span>", "</span>", "<span class='plyr__time'>", "<span class='plyr__sr-only'>Current time</span>", "<span class='plyr__time--current'>00:00</span>", "</span>", "<span class='plyr__time'>", "<span class='plyr__sr-only'>Duration</span>", "<span class='plyr__time--duration'>00:00</span>", "</span>", "<button type='button' class='controllable' data-plyr='fullscreen'>", "<svg class='icon--exit-fullscreen'><use xlink:href='#plyr-exit-fullscreen'></use></svg>", "<svg><use xlink:href='#plyr-enter-fullscreen'></use></svg>", "<span class='plyr__sr-only'>Toggle Fullscreen</span>", "</button>", "</div>"].join("");
 
@@ -1818,7 +1872,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
             console.log('The type of rating returned is: ' + type);
 
-            _this4.updateLikeDislikeButtons(type);
+            _this5.updateLikeDislikeButtons(type);
         });
     },
 
@@ -1848,7 +1902,7 @@ module.exports = '<header class="row">\n    <!-- Render the header here -->\n</h
 },{}],26:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Browse</h2>\n<hr>\n<div class="row">\n\n    <% _.each(items, function(item, index) { index += 1; %>\n\n    <div class="col-md-3">\n        <a href="/#/browse/<%- item.title %>" class="category-panel btn btn-xs btn-default btn-block controllable">\n                \n            <strong><h3><%- item.title %></h3></strong>\n            <hr>\n            <h4><%- item.total %> &nbsp;programmes</h4>\n\n        </a>\n\n    </div>\n\n    <% if(index % 4 == 0) { %>\n</div>\n<div class="row">\n\n    <% } %>\n\n    <% }) %>\n\n</div>';
 },{}],27:[function(require,module,exports){
-module.exports = '<div class="row">\n    <div class="<%- carouselId %>" id="<%- carouselId %>">\n        <% _.each(items, function(item, index) { %>\n        <div class="col-sm-3">\n            <a href="#/watch/<%- item.programme_id %>" class="thumbnail">\n                <h4><%- item.programme_name %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>" alt="<%- item.programme_title %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.duration %></span>\n\n                <span class="small pull-right"><%- item.channel_name %></span>\n            </a>\n        </div>\n        <% }) %>\n\n    </div>\n</div>';
+module.exports = '<div class="row">\n    <div class="<%- carouselId %>" id="<%- carouselId %>">\n        <% _.each(items, function(item, index) { %>\n        <div class="col-sm-3">\n            <div class="background-image" style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-\n        item.image %>) no-repeat center center; background-size:contain;"></div>\n            <a href="#/watch/<%- item.programme_id %>" class="thumbnail programme_thumb">\n                <h4><%- item.programme_name %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"\n                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.duration %></span>\n\n                <span class="small pull-right"><%- item.channel_name %></span>\n            </a>\n        </div>\n        <% }) %>\n\n    </div>\n</div>';
 },{}],28:[function(require,module,exports){
 module.exports = '<div class="col-md-3">\n    <a href="#">\n        <img class="img-responsive logo" src="http://vision.lancs.ac.uk/images/LancUni_Vision-Logo_300dpi_RGB.jpg" alt="vision-logo">\n    </a>\n</div>\n<div class="col-md-8 col-md-offset-1">\n    <input type="text" id="search-box" class="search form-control controllable" placeholder="Search titles...">\n</div>\n';
 },{}],29:[function(require,module,exports){
@@ -1856,13 +1910,13 @@ module.exports = '<h2><i class="fa fa-user" aria-hidden="true"></i> For You</h2>
 },{}],30:[function(require,module,exports){
 module.exports = '<div class="col-md-12 text-center">\n    <ul class="list-inline">\n        <li><a href="#/" id="nav-home" class="btn btn-lg btn-<% if(page == \'\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-home" aria-hidden="true"></i> Home</h3></a></li>\n        <li><a href="#/popular" id="nav-popular" class="btn btn-lg btn-<% if(page == \'popular\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-fire" aria-hidden="true"></i> Popular</h3></a></li>\n        <li><a href="#/browse" id="nav-browse" class="btn btn-lg btn-<% if(page == \'browse\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-list" aria-hidden="true"></i> Browse</h3></a></li>\n    </ul>\n</div>\n';
 },{}],31:[function(require,module,exports){
-module.exports = '<h2><i class="fa fa-fire" aria-hidden="true"></i> Popular Now</h2>\n<hr>\n\n<% _.each(collections, function(collection, cindex) { %>\n<div class="row">\n    <div class="popular-carousel">\n        <% _.each(collection, function(item, index) { %>\n        <div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img data-lazy="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n        <% }) %>\n    </div>\n</div>\n\n<% }); %>';
+module.exports = '<h2><i class="fa fa-fire" aria-hidden="true"></i> Popular Now</h2>\n<hr>\n\n<% _.each(collections, function(collection, cindex) { %>\n<div class="row">\n    <div class="popular-carousel">\n        <% _.each(collection, function(item, index) { %>\n        <div class="col-sm-3">\n            <div class="background-image"\n                 style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-item.get(\'image\') %>) no-repeat center center; background-size:contain;"></div>\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail programme_thumb">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img data-lazy="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n        <% }) %>\n    </div>\n</div>\n\n<% }); %>';
 },{}],32:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-search"></i> Search Results for <strong><%- search %></strong></h2>\n<hr>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n\n<div class="row search-results">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
 },{}],33:[function(require,module,exports){
-module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>\n<hr>\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n<div class="row shows">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
+module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>\n<hr>\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n<div class="row shows">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <div class="background-image"\n                 style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-\n                 item.get(\'image\') %>) no-repeat center center; background-size:contain;"></div>\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail programme_thumb">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><%- item.get(\'duration\') %></span>\n                <span class="small pull-right"><%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
 },{}],34:[function(require,module,exports){
-module.exports = '<p class="row">\n    <div class="col-md-7">\n        <video class="player" controls preload="auto">\n            <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">\n        </video>\n    </div>\n\n    <div class="col-md-5 text-right video-description">\n        <img\n                src="no_poster.jpg" style="max-height: 120px; margin-left: 25px;"\n                class="pull-right img-responsive img-thumbnail poster">\n        <h2><%- name %></h2>\n        <p><h3 style="color:goldenrod;">\n            <i class="fa fa-star" aria-hidden="true"></i>\n            <strong class="imdb-rating">-</strong>\n\n            <small> / 10</small></h3></p>\n\n        <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 20px;"><%- synopsis %>\n            <strong><span\n                class="text-muted imdb-rated"></span></strong></div>\n\n        <div class="col-md-12 text-center small" style="margin-top: 10px; margin-bottom: 20px;">\n            <span class="imdb-actors"></span> | <span class="imdb-genres"></span>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-success btn-outline rating like">\n            <i class="fa fa-thumbs-up"></i></button>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-danger btn-outline rating dislike">\n                <i class="fa fa-thumbs-down"></i></button></div>\n\n        <div class="col-md-12">\n            <p class="your-rating panel-body text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></p>\n        </div>\n\n    </div>\n</div>';
+module.exports = '<p class="row">\n    <div class="col-md-7">\n        <video class="player" controls preload="auto">\n            <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">\n        </video>\n    </div>\n\n    <div class="col-md-5 text-right video-description">\n        <img\n                src="no_poster.jpg" style="max-height: 120px; margin-left: 25px;"\n                class="pull-right img-responsive img-thumbnail poster">\n        <h2><%- name %></h2>\n        <p><h3 style="color:goldenrod;">\n            <i class="fa fa-star" aria-hidden="true"></i>\n            <strong class="imdb-rating">-</strong>\n\n            <small> / 10</small></h3></p>\n\n        <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 20px;"><%- synopsis %>\n            <strong><span\n                class="text-muted imdb-rated"></span></strong></div>\n\n        <div class="col-md-12 text-center small" style="margin-top: 10px; margin-bottom: 20px;">\n            <span class="imdb-actors"></span> | <span class="imdb-genres"></span>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-success btn-outline rating like">\n            <i class="fa fa-thumbs-up"></i> <span class="like-amount">0</span></button>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-danger btn-outline rating dislike">\n                <i class="fa fa-thumbs-down"></i> <span class="dislike-amount">0</span></button></div>\n\n        <div class="col-md-12">\n            <p class="your-rating panel-body text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></p>\n        </div>\n\n    </div>\n</div>';
 },{}],35:[function(require,module,exports){
 var asn1 = exports;
 

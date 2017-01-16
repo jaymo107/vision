@@ -1858,6 +1858,12 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
             _this5.updatePlayPauseButton(1);
         });
 
+        this.player[0].on('waiting', function (event) {
+            console.log('[VIDEO] Waiting...');
+            var instance = event.detail.plyr;
+            _this5.$('#togglePlay').html('<i class="fa fa-cog fa-spin"></i>');
+        });
+
         this.player[0].on('pause', function (event) {
             console.log('[VIDEO] Paused the video');
             var instance = event.detail.plyr;

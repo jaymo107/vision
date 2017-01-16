@@ -1625,7 +1625,9 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
     events: {
         'click .rating.like': 'like',
-        'click .rating.dislike': 'dislike'
+        'click .rating.dislike': 'dislike',
+        'click #fullscreen': 'toggleFullscreen',
+        'click #togglePlay': 'togglePlayback'
     },
 
     model: _modelsVideo2['default'],
@@ -1839,28 +1841,30 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     onDomRefresh: function onDomRefresh() {
         var _this5 = this;
 
-        var controls = ["<div class='plyr__controls'>", "<span class='plyr__progress'>", "<label for='seek{id}' class='plyr__sr-only'>Seek</label>", "<input id='seek{id}' class='plyr__progress--seek' type='range' min='0' max='100' step='0.1' value='0'" + " data-plyr='seek' tabIndex='-1'>", "<progress class='plyr__progress--played' max='100' value='0' role='presentation'></progress>", "<progress class='plyr__progress--buffer' max='100' value='0'>", "<span>0</span>% buffered", "</progress>", "<span class='plyr__tooltip'>00:00</span>", "</span>", "<span class='plyr__time'>", "<span class='plyr__sr-only'>Current time</span>", "<span class='plyr__time--current'>00:00</span>", "</span>", "<span class='plyr__time'>", "<span class='plyr__sr-only'>Duration</span>", "<span class='plyr__time--duration'>00:00</span>", "</span>", "<button type='button' class='controllable' data-plyr='fullscreen'>", "<svg class='icon--exit-fullscreen'><use xlink:href='#plyr-exit-fullscreen'></use></svg>", "<svg><use xlink:href='#plyr-enter-fullscreen'></use></svg>", "<span class='plyr__sr-only'>Toggle Fullscreen</span>", "</button>", "</div>"].join("");
+        var controls = ["<div class='plyr__controls'>", "</div>"].join("");
 
-        var player = plyr.setup('.player', {
+        this.player = plyr.setup('.player', {
             //controls: ['play-large', 'progress', 'current-time', 'fullscreen'],
             keyboardShortcuts: { focused: false, global: false },
             html: controls
         });
 
-        player[0].play();
+        this.player[0].play();
 
-        player[0].on('play', function (event) {
+        this.player[0].on('playing', function (event) {
             console.log('[VIDEO] Playing the video');
             var instance = event.detail.plyr;
+            _this5.$('#togglePlay').removeClass('disabled');
+            _this5.updatePlayPauseButton(1);
         });
 
-        player[0].on('pause', function (event) {
+        this.player[0].on('pause', function (event) {
             console.log('[VIDEO] Paused the video');
             var instance = event.detail.plyr;
-            instance.toggleFullscreen();
+            _this5.updatePlayPauseButton(0);
         });
 
-        player[0].on('timeupate', function (event) {
+        this.player[0].on('timeupate', function (event) {
             console.log('Time has updated');
         });
 
@@ -1884,6 +1888,29 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         return {
             playerId: this.getOption('playerId')
         };
+    },
+
+    toggleFullscreen: function toggleFullscreen(e) {
+        console.log('Toggle fullscreen!');
+        console.log(this.player[0]);
+        this.player[0].toggleFullscreen();
+    },
+
+    updatePlayPauseButton: function updatePlayPauseButton(type) {
+        var $button = this.$('#togglePlay');
+        if (type == 1) {
+            $button.addClass('btn-outline');
+            // Playing
+            $button.html('<i class="fa fa-pause"></i>');
+        } else {
+            $button.removeClass('btn-outline');
+            // Paused
+            $button.html('<i class="fa fa-play"></i>');
+        }
+    },
+
+    togglePlayback: function togglePlayback(e) {
+        this.player[0].togglePlay();
     },
 
     serializeData: function serializeData() {
@@ -1916,7 +1943,7 @@ module.exports = '<h2><i class="fa fa-search"></i> Search Results for <strong><%
 },{}],33:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Category: &nbsp; <%- genre %></h2>\n<hr>\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>\n<div class="row shows">\n\n	<% _.each(items, function(item, index) { %>\n		<div class="col-sm-3">\n            <div class="background-image"\n                 style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-\n                 item.get(\'image\') %>) no-repeat center center; background-size:contain;"></div>\n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail programme_thumb">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n                <span class="small"><i class="fa fa-clock-o"></i> <%- item.get(\'duration\') %></span>\n\n                <span class="small pull-right"><i class="fa fa-television"></i> <%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n	<% }); %>\n   	\n\n</div>\n\n<div class="row">\n    \n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow back">\n            <h4><i class="fa fa-arrow-left"></i></h4>\n        </a>\n    </div>\n\n    <div class="col-sm-6">\n        <a href="#" class="thumbnail arrow next">\n            <h4><i class="fa fa-arrow-right"></i></h4>\n        </a>\n    </div>\n\n</div>';
 },{}],34:[function(require,module,exports){
-module.exports = '<p class="row">\n    <div class="col-md-7">\n        <video class="player" controls preload="auto">\n            <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">\n        </video>\n    </div>\n\n    <div class="col-md-5 text-right video-description">\n        <img\n                src="no_poster.jpg" style="max-height: 120px; margin-left: 25px;"\n                class="pull-right img-responsive img-thumbnail poster">\n        <h2><%- name %></h2>\n        <p><h3 style="color:goldenrod;">\n            <i class="fa fa-star" aria-hidden="true"></i>\n            <strong class="imdb-rating">-</strong>\n\n            <small> / 10</small></h3></p>\n\n        <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 20px;"><%- synopsis %>\n            <strong><span\n                class="text-muted imdb-rated"></span></strong></div>\n\n        <div class="col-md-12 text-center small" style="margin-top: 10px; margin-bottom: 20px;">\n            <span class="imdb-actors"></span> | <span class="imdb-genres"></span>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-success btn-outline rating like">\n            <i class="fa fa-thumbs-up"></i> <span class="like-amount">0</span></button>\n        </div>\n\n        <div class="col-md-6">\n            <button class="btn btn-block btn-danger btn-outline rating dislike">\n                <i class="fa fa-thumbs-down"></i> <span class="dislike-amount">0</span></button></div>\n\n        <div class="col-md-12">\n            <p class="your-rating panel-body text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></p>\n        </div>\n\n    </div>\n</div>';
+module.exports = '<p class="row">\n<div class="col-md-7">\n    <video tabindex="-1" class="player" controls preload="auto">\n        <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">\n    </video>\n</div>\n\n<div class="col-md-5 text-right video-description">\n    <img\n            src="no_poster.jpg" style="max-height: 120px; margin-left: 25px;"\n            class="pull-right img-responsive img-thumbnail poster">\n    <h2><%- name %></h2>\n    <p>\n    <h3 style="color:goldenrod;">\n        <i class="fa fa-star" aria-hidden="true"></i>\n        <strong class="imdb-rating">-</strong>\n\n        <small> / 10</small>\n    </h3>\n    </p>\n\n    <div class="col-md-12 text-center" style="margin-top: 10px; margin-bottom: 20px;"><%- synopsis %>\n        <strong><span\n                class="text-muted imdb-rated"></span></strong></div>\n\n    <div class="col-md-12 text-center small" style="margin-top: 10px; margin-bottom: 20px;">\n        <span class="imdb-actors"></span> | <span class="imdb-genres"></span>\n    </div>\n\n    <div class="row">\n\n        <div class="col-md-3">\n            <button id="togglePlay" class="btn btn-primary btn-outline player-controls disabled">\n                <i class="fa fa-cog fa-spin"></i>\n            </button>\n        </div>\n\n        <div class="col-md-3">\n            <button id="fullscreen" class="btn btn-primary btn-outline player-controls">\n                <i class="fa fa-arrows-alt"></i>\n            </button>\n        </div>\n\n        <div class="col-md-3">\n            <button class="btn btn-block btn-success btn-outline rating like">\n                <i class="fa fa-thumbs-up"></i> <span class="like-amount">0</span></button>\n        </div>\n\n        <div class="col-md-3">\n            <button class="btn btn-block btn-danger btn-outline rating dislike">\n                <i class="fa fa-thumbs-down"></i> <span class="dislike-amount">0</span></button>\n        </div>\n\n    </div>\n\n    <div class="col-md-12">\n        <p class="your-rating panel-body text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></p>\n    </div>\n\n</div>\n</div>';
 },{}],35:[function(require,module,exports){
 var asn1 = exports;
 

@@ -160,9 +160,9 @@ nav {
   position: absolute;
   z-index: -1;
   display: block;
-  width: 223px;
+  width: 295px;
   height: 260px;
-  margin-left: 20px;
+  margin-left: -15px;
   -moz-filter: blur(20px);
   -o-filter: blur(20px);
   -ms-filter: blur(20px);
@@ -187,9 +187,6 @@ nav {
   padding: 10px;
   border: none;
 
-  & h4 {
-    font-weight: bold;
-  }
 
   &:focus, :hover {
     color: #000;
@@ -199,4 +196,14 @@ nav {
 
 hr {
   opacity: .1;
+}
+
+.likes-small{
+  color: #5cb85c;
+  font-size: 18px;
+}
+
+.dislikes-small{
+  color: #d9534f;
+  font-size: 18px;
 }

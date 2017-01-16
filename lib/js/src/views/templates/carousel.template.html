@@ -9,9 +9,19 @@
                 <hr>
                 <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"
                      alt="<%- item.programme_title %>" class="img-responsive img-rounded">
-                <span class="small"><%- item.duration %></span>
 
-                <span class="small pull-right"><%- item.channel_name %></span>
+                <% if(typeof item.likes !== 'undefined') { %>
+                    <span class="likes-small"><i class="fa fa-thumbs-up"></i> <%- item.likes %></span>
+
+                    <span class="pull-right dislikes-small"><i class="fa fa-thumbs-down"></i> <%- item.dislikes
+                        %></span>
+                <% } else { %>
+                <span class="small"><i class="fa fa-clock-o"></i> <%- item.duration %></span>
+
+                <span class="small pull-right"><i class="fa fa-television"></i> <%- item.channel_name
+                        %></span>
+                <% } %>
+
             </a>
         </div>
         <% }) %>

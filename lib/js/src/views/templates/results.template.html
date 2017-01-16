@@ -21,12 +21,16 @@
 
 	<% _.each(items, function(item, index) { %>
 		<div class="col-sm-3">
-            <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail">
+            <div class="background-image"
+                 style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-
+                 item.get('image') %>) no-repeat center center; background-size:contain;"></div>
+            <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail programme_thumb">
                 <h4><%- item.get('programme_name') %></h4>
                 <hr>
                 <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get('image') %>" alt="<%- item.get('programme_title') %>" class="img-responsive img-rounded">
-                <span class="small"><%- item.get('duration') %></span>
-                <span class="small pull-right"><%- item.get('channel_name') %></span>
+                <span class="small"><i class="fa fa-clock-o"></i> <%- item.get('duration') %></span>
+
+                <span class="small pull-right"><i class="fa fa-television"></i> <%- item.get('channel_name') %></span>
             </a>
         </div>
 	<% }); %>

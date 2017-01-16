@@ -76,7 +76,7 @@ class RecommendationsController
     {
         $data = array();
         // The number of recommendations to generate
-        $numOfRecommendations = 4;
+        $numOfRecommendations = 8;
 
         // STEP 1: Get the history
         // Take 6 of the history for now

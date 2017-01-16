@@ -188,7 +188,6 @@ nav {
   padding: 10px;
   border: none;
 
-
   &:focus, :hover {
     color: #000;
     border: 7px black solid;
@@ -199,17 +198,28 @@ hr {
   opacity: .1;
 }
 
-.player-controls{
+.player-controls {
   font-size: 24px;
   padding: 6px 35px;
+
+  &:focus {
+    border: 3px solid blue;
+  }
 }
 
-.likes-small{
+.likes-small {
   color: #5cb85c;
   font-size: 18px;
 }
 
-.dislikes-small{
+.dislikes-small {
   color: #d9534f;
   font-size: 18px;
+}
+
+.video-controls {
+  position: relative;
+  margin-top: -60px;
+  z-index: 2;
+  bottom: 10px;
 }

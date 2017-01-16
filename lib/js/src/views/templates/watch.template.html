@@ -3,6 +3,21 @@
     <video tabindex="-1" class="player" controls preload="auto">
         <source src="http://iptv-med-vod-2.lancs.ac.uk/<%- id %>.mp4" type="video/mp4">
     </video>
+
+    <div class="row video-controls">
+        <div class="col-md-2 col-md-offset-7">
+            <button id="togglePlay" class="btn btn-default player-controls disabled">
+                <i class="fa fa-cog fa-spin"></i>
+            </button>
+        </div>
+
+        <div class="col-md-3">
+            <button id="fullscreen" class="btn btn-primary player-controls">
+                <i class="fa fa-arrows-alt"></i>
+            </button>
+        </div>
+    </div>
+
 </div>
 
 <div class="col-md-5 text-right video-description">
@@ -29,24 +44,12 @@
 
     <div class="row">
 
-        <div class="col-md-3">
-            <button id="togglePlay" class="btn btn-primary btn-outline player-controls disabled">
-                <i class="fa fa-cog fa-spin"></i>
-            </button>
-        </div>
-
-        <div class="col-md-3">
-            <button id="fullscreen" class="btn btn-primary btn-outline player-controls">
-                <i class="fa fa-arrows-alt"></i>
-            </button>
-        </div>
-
-        <div class="col-md-3">
+        <div class="col-md-6">
             <button class="btn btn-block btn-success btn-outline rating like">
                 <i class="fa fa-thumbs-up"></i> <span class="like-amount">0</span></button>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <button class="btn btn-block btn-danger btn-outline rating dislike">
                 <i class="fa fa-thumbs-down"></i> <span class="dislike-amount">0</span></button>
         </div>

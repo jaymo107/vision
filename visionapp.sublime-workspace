@@ -107,8 +107,16 @@
 			"file": "app/Http/Controllers/RecommendationsController.php",
 			"settings":
 			{
-				"buffer_size": 6832,
+				"buffer_size": 6979,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".env.example",
+			"settings":
+			{
+				"buffer_size": 243,
 				"line_ending": "Unix"
 			}
 		},
@@ -133,7 +141,7 @@
 			"file": "lib/js/src/views/WatchView.js",
 			"settings":
 			{
-				"buffer_size": 10033,
+				"buffer_size": 10113,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -142,7 +150,7 @@
 			"file": "lib/js/src/collections/Recommendations.js",
 			"settings":
 			{
-				"buffer_size": 1035,
+				"buffer_size": 991,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -361,7 +369,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -370,15 +378,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6832,
+						"buffer_size": 6979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3093,
-								3093
+								0,
+								0
 							]
 						],
 						"settings":
@@ -389,6 +397,34 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
+						"translation.y": 2515.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": ".env.example",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 243,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -396,7 +432,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "routes/web.php",
 					"semi_transient": false,
 					"settings":
@@ -414,17 +450,19 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "lib/js/src/views/RecommendedView.js",
 					"semi_transient": false,
 					"settings":
@@ -451,16 +489,16 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "lib/js/src/views/WatchView.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10033,
+						"buffer_size": 10113,
 						"regions":
 						{
 						},
@@ -481,24 +519,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "lib/js/src/collections/Recommendations.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1035,
+						"buffer_size": 991,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								499,
-								499
+								0,
+								0
 							]
 						],
 						"settings":
@@ -513,7 +551,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -719,7 +757,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 233.0,
 	"status_bar_visible": true,
 	"template_settings":

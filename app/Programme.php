@@ -38,6 +38,12 @@ use Illuminate\Database\Query\Builder;
  * @method static Builder|\App\Programme whereCreatedAt($value)
  * @method static Builder|\App\Programme whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $image
+ * @property string $programme_name
+ * @property-read mixed $likes
+ * @property-read mixed $dislikes
+ * @method static \Illuminate\Database\Query\Builder|\App\Programme whereImage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Programme whereProgrammeName($value)
  */
 class Programme extends Model
 {

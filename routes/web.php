@@ -11,7 +11,7 @@
 |
 */
 
-$app->get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+$app->get('/', ['as' => 'home', 'middleware' => [], 'uses' => 'HomeController@index']);
 
 $app->group(['prefix' => 'user'], function () use ($app) {
     $app->get('/', ['as' => 'user', 'uses' => 'UserController@getUser']);

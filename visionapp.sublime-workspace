@@ -150,7 +150,7 @@
 			"file": "lib/js/src/collections/Recommendations.js",
 			"settings":
 			{
-				"buffer_size": 991,
+				"buffer_size": 971,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -397,7 +397,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2515.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -416,8 +416,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								243,
+								243
 							]
 						],
 						"settings":
@@ -528,7 +528,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 991,
+						"buffer_size": 971,
 						"regions":
 						{
 						},

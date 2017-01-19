@@ -9,9 +9,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Jobs\GenerateRecommendationsJob;
 use App\Programme;
 
+use App\Recommendation;
 use GuzzleHttp as Guzzle;
+use Illuminate\Queue\Queue;
 
 class RecommendationsController
 {
@@ -42,10 +45,26 @@ class RecommendationsController
             ];
         }
 
-        // Use our algorithm
+        // Dispatch the job to generate the recommendations
+        \Illuminate\Support\Facades\Queue::push(new GenerateRecommendationsJob($user, $this->history));
 
+        return $this->generateRecommendations($this->history);
 
-        return $this->generateRecommendations($user);
+        // Get the recommendations from the database
+//        $recommendations = Recommendation::whereUserId($user)->get();
+//
+//        $data = [];
+//
+//        foreach ($recommendations as $recommendation) {
+//            $data[] = $recommendation->getProgramme()->toArray();
+//        }
+//
+//        // Use our algorithm
+//        return [
+//            'ret_code' => 200,
+//            'data' => $data
+//        ];
+
     }
 
     /**
@@ -69,10 +88,11 @@ class RecommendationsController
     }
 
     /**
-     * @param $user
+     * @param $history
      * @return array
+     * @internal param $user
      */
-    private function generateRecommendations($user)
+    private function generateRecommendations($history)
     {
         $data = array();
         // The number of recommendations to generate
@@ -80,7 +100,7 @@ class RecommendationsController
 
         // STEP 1: Get the history
         // Take 6 of the history for now
-        $history = array_slice($this->history, 0, $numOfRecommendations);
+        $history = array_slice($history, 0, $numOfRecommendations);
 
         $programmeScores = [];
 
@@ -151,6 +171,15 @@ class RecommendationsController
 
             // TODO: Add the best scoring set to the database, for this user so save it.
 
+            // Remove all current programmes for this user
+//            $oldRecommendations = Recommendation::whereUserId($this->user)->each(function (Recommendation $item, $key) {
+//                $item->delete();
+//            });
+
+//            foreach ($oldRecommendations as $oldRecommendation) {
+//                Recommendation::destroy($oldRecommendation->);
+//            }
+
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
         }
@@ -172,8 +201,8 @@ class RecommendationsController
      */
     private function matchGenres($programmeA, $programmeB)
     {
-        $aGenres = Guzzle\json_decode($programmeA->genres);
-        $bGenres = Guzzle\json_decode($programmeB->genres);
+        $aGenres = \GuzzleHttp\json_decode($programmeA->genres);
+        $bGenres = \GuzzleHttp\json_decode($programmeB->genres);
 
         return count(array_intersect($aGenres, $bGenres));
     }
@@ -185,8 +214,8 @@ class RecommendationsController
      */
     private function matchActors($programmeA, $programmeB)
     {
-        $aActors = Guzzle\json_decode($programmeA->actors);
-        $bActors = Guzzle\json_decode($programmeB->actors);
+        $aActors = \GuzzleHttp\json_decode($programmeA->actors);
+        $bActors = \GuzzleHttp\json_decode($programmeB->actors);
 
         return count(array_intersect($aActors, $bActors));
     }
@@ -208,8 +237,8 @@ class RecommendationsController
      */
     private function matchWriters($programmeA, $programmeB)
     {
-        $aWriters = Guzzle\json_decode($programmeA->writers);
-        $bWriters = Guzzle\json_decode($programmeB->writers);
+        $aWriters = \GuzzleHttp\json_decode($programmeA->writers);
+        $bWriters = \GuzzleHttp\json_decode($programmeB->writers);
 
         if ((count($aWriters) == 1 && $aWriters[0] == 'N/A') || (count($bWriters) == 1 && $bWriters[0] == 'N/A')) {
             return 0;
@@ -232,5 +261,6 @@ class RecommendationsController
 
         return ($programmeA->director == $programmeB->director) ? 1 : 0;
     }
+
 
 }

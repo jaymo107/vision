@@ -19,9 +19,7 @@
 
 	<% _.each(items, function(item, index) { %>
 		<div class="col-sm-3">
-            <div class="background-image"
-                 style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-
-                 item.get('image') %>) no-repeat center center; background-size:contain;"></div>
+        
             <a href="#/watch/<%- item.get('programme_id') %>" class="thumbnail programme_thumb">
                 <h4><%- item.get('programme_name') %></h4>
                 <hr>

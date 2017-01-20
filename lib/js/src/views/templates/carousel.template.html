@@ -7,8 +7,6 @@
             <a href="#/watch/<%- item.programme_id %>" class="thumbnail programme_thumb">
                 <h4><%- item.programme_name %></h4>
                 <hr>
-                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"
-                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">
 
                 <% if(typeof item.likes !== 'undefined') { %>
                     <span class="likes-small"><i class="fa fa-thumbs-up"></i> <%- item.likes %></span>

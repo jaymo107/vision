@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if(!$_SESSION['user']) {
+        if(isset($_SESSION['user'])) {
             // Not logged in
             return view('index')->with([
                 'userId' => $_SESSION['user'],

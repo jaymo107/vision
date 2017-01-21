@@ -1619,6 +1619,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         poster: '',
         rating: '',
         rated: '',
+        series: '',
+        type: '',
+        writers: '',
+        director: '',
         likes: 0,
         dislikes: 0
     },
@@ -1706,7 +1710,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                             genres: data.genres,
                             poster: data.poster,
                             rating: data.rating,
-                            rated: data.rated
+                            rated: data.rated,
+                            series: data.series,
+                            type: data.type,
+                            writers: data.writer,
+                            director: data.director
                         };
 
                         // Store this metadata in the database if it doesn't already exist
@@ -1714,33 +1722,33 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
                         console.log('[HISTORY] You should save this video to your history here: UserID: ' + window.App.user.id + ', programme_id: ' + programme_id);
 
-                        _jquery2['default'].post('/meta/' + programme_id, {
-                            'imdb_id': data.imdbid,
-                            'actors': data.actors,
-                            'genres': data.genres,
-                            'poster': data.poster,
-                            'rating': data.rating,
-                            'rated': data.rated,
-                            'series': data.series ? 1 : 0, // var i = result ? 1 : 0;
-                            'type': data.type,
-                            'writers': data.writer,
-                            'director': data.director,
-                            'programme_name': model.get('name'),
-                            'image': model.get('image'),
-                            'likes': 0,
-                            'dislikes': 0,
-                            'user': window.App.user.id
-                        }, function (response) {
-                            console.log('Storing request data: ');
-                            console.log(response);
-                        });
-
-                        console.log('[IMDB] Render the imdb meta to the view.');
-
-                        _this.renderMeta(_this.imdbMeta);
-
                         console.log(_this.getOption('imdbMeta'));
                     });
+
+                    _jquery2['default'].post('/meta/' + programme_id, {
+                        'imdb_id': _this.imdbMeta.imdbid,
+                        'actors': _this.imdbMeta.actors,
+                        'genres': _this.imdbMeta.genres,
+                        'poster': _this.imdbMeta.poster,
+                        'rating': _this.imdbMeta.rating,
+                        'rated': _this.imdbMeta.rated,
+                        'series': _this.imdbMeta.series ? 1 : 0, // var i = result ? 1 : 0;
+                        'type': _this.imdbMeta.type,
+                        'writers': _this.imdbMeta.writer,
+                        'director': _this.imdbMeta.director,
+                        'programme_name': model.get('name'),
+                        'image': model.get('image'),
+                        'likes': 0,
+                        'dislikes': 0,
+                        'user': window.App.user.id
+                    }, function (response) {
+                        console.log('Storing request data: ');
+                        console.log(response);
+                    });
+
+                    console.log('[IMDB] Render the imdb meta to the view.');
+
+                    _this.renderMeta(_this.imdbMeta);
                 });
             }
         });

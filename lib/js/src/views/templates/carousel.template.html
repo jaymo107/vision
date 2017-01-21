@@ -2,16 +2,17 @@
     <div class="<%- carouselId %>" id="<%- carouselId %>">
         <% _.each(items, function(item, index) { %>
         <div class="col-sm-3">
-            <div class="background-image" style="background:url(http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%-
-        item.image %>) no-repeat center center; background-size:contain;"></div>
             <a href="#/watch/<%- item.programme_id %>" class="thumbnail programme_thumb">
                 <h4><%- item.programme_name %></h4>
                 <hr>
 
-                <% if(typeof item.likes !== 'undefined') { %>
-                    <span class="likes-small"><i class="fa fa-thumbs-up"></i> <%- item.likes %></span>
+                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"
+                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">
 
-                    <span class="pull-right dislikes-small"><i class="fa fa-thumbs-down"></i> <%- item.dislikes
+                <% if(typeof item.likes !== 'undefined') { %>
+                <span class="likes-small"><i class="fa fa-thumbs-up"></i> <%- item.likes %></span>
+
+                <span class="pull-right dislikes-small"><i class="fa fa-thumbs-down"></i> <%- item.dislikes
                         %></span>
                 <% } else { %>
                 <span class="small"><i class="fa fa-clock-o"></i> <%- item.duration %></span>

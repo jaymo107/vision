@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\History;
 use App\Programme;
 use Illuminate\Http\Request;
 
@@ -51,7 +52,14 @@ class MetaController extends Controller
                 'programme_name' => $data->get('programme_name')
             ]);
 
+            // Insert into history
+            $history = new History([
+                'user_id' => $data->get('user'),
+                'programme_id' => $programme_id
+            ]);
+
             $programme->save();
+            $history->save();
         }
 
 

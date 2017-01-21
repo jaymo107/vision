@@ -27,15 +27,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if(isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user'])) {
             // Not logged in
-            return view('index')->with([
-                'userId' => $_SESSION['user'],
-                'apiKey' => $this->apiKey
-            ]);
+            $_SESSION['user'] = 2380;
         }
-
-        $_SESSION['user'] = 2380;
 
         return view('index')->with([
             'userId' => $_SESSION['user'],

@@ -6,6 +6,10 @@
 @import "./node_modules/slick-carousel/slick/slick.scss";
 @import "./node_modules/slick-carousel/slick/slick-theme.scss";
 
+.full-width {
+  width: 100%;
+}
+
 * {
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter;
@@ -186,7 +190,7 @@ nav {
   margin-right: 20px;
   color: #000;
   padding: 10px;
-  border: none;
+  border: 1px solid;
 
   &:focus, :hover {
     color: #000;

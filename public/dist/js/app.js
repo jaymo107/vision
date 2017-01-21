@@ -1667,7 +1667,9 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                 programme_name = programme_name.replace(/["']/g, "");
                 //programme_name = this.addSlashes(programme_name);//programme_name.replace(/"|'/g, '');
                 var programme_id = data.get('id');
-                var programme_image = data.get('image');
+                var programme_image = 'http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes' + data.get('image');
+
+                _this.imdbMeta.poster = programme_image;
                 var unescaped_name = data.get('name');
                 var model = data;
 

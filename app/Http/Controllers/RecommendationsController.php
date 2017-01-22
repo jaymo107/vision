@@ -80,7 +80,7 @@ class RecommendationsController
         foreach($results as $element) {
             $result[] = $element['programme'];
         }
-        
+
         return History::where('user_id', $user)->get()->toArray();
     }
 
@@ -110,9 +110,14 @@ class RecommendationsController
     {
 
         // Check which history to use
+        // Get the first element from each
+        $localHistory = $this->getLocalHistory($user);
+        $localLatest = strtotime($localHistory[0]['created_at']);
 
+        $visionHistory = $this->getVisionHistory($user);
+        $visionLatest = strtotime($visionHistory[0]['created_at']);
 
-        $this->history = $this->getLocalHistory($user);
+        $this->history = ($localLatest >= $visionLatest) ? $localHistory : $visionHistory;
 
         return (count($this->history) > 0);
     }
@@ -139,7 +144,7 @@ class RecommendationsController
         foreach ($history as $programme) {
 
             // Locate the programme in our table
-            $currentProgramme = Programme::find($programme->programme_id);
+            $currentProgramme = Programme::find($programme['programme_id']);
 
 
             if ($currentProgramme == null) {

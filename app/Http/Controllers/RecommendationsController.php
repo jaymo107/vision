@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\History;
 use App\Jobs\GenerateRecommendationsJob;
 use App\Programme;
 
@@ -68,6 +69,37 @@ class RecommendationsController
     }
 
     /**
+     * @param $user
+     * @return array
+     */
+    private function getLocalHistory($user)
+    {
+        $results = History::with('programme')->where('user_id', $user)->get(['programme_id'])->toArray();
+        $result = [];
+
+        foreach($results as $element) {
+            $result[] = $element['programme'];
+        }
+        
+        return History::where('user_id', $user)->get()->toArray();
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    private function getVisionHistory($user)
+    {
+        $url = 'http://iptv-stats-lb-float.lancs.ac.uk:9110/analysis/viewing_history_v2?image_size=85x50&tv_radio=TV&timestamp=1483368621.28&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&user_id=' . $user;
+
+        $response = $this->client->request('GET', $url);
+
+        $content = Guzzle\json_decode($response->getBody()->getContents());
+
+        return $content;
+    }
+
+    /**
      * Check if the user has any history, if they do then use our algorithm
      * to filter through recommendations, otherwise, use vision's api.
      *
@@ -76,15 +108,13 @@ class RecommendationsController
      */
     private function shallUseAlgorithm($user)
     {
-        $url = 'http://iptv-stats-lb-float.lancs.ac.uk:9110/analysis/viewing_history_v2?image_size=85x50&tv_radio=TV&timestamp=1483368621.28&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&user_id=' . $user;
 
-        $response = $this->client->request('GET', $url);
+        // Check which history to use
 
-        $content = Guzzle\json_decode($response->getBody()->getContents());
 
-        $this->history = $content->data;
+        $this->history = $this->getLocalHistory($user);
 
-        return (count($content->data) > 0);
+        return (count($this->history) > 0);
     }
 
     /**

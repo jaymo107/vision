@@ -19,8 +19,8 @@ class History extends Model
     public $incrementing = false;
     protected $fillable = ['user_id', 'programme_id'];
 
-    public function getProgramme()
+    public function programme()
     {
-        return Programme::find($this->programme_id);
+        return $this->hasOne('App\Programme', 'programme_id', 'programme_id');
     }
 }

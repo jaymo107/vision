@@ -83,7 +83,7 @@ class RecommendationsController
 
         return $result;
     }
-    
+
     /**
      * Check if the user has any history, if they do then use our algorithm
      * to filter through recommendations, otherwise, use vision's api.

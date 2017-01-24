@@ -32,16 +32,12 @@ class UserController
         ], 200);
     }
 
-    public function getHistory($user)
-    {
-        return $this->getLocalHistory($user);
-    }
 
     /**
      * @param $user
      * @return array
      */
-    private function getLocalHistory($user)
+    public function getHistory($user)
     {
         $results = History::with('programme')->where('user_id', $user)->get(['programme_id'])->toArray();
         $result = [];
@@ -50,7 +46,10 @@ class UserController
             $result[] = $element['programme'];
         }
 
-        return $result;
+        return [
+            'ret_code' => 200,
+            'data' => array_reverse($result)
+        ];
     }
 
 }

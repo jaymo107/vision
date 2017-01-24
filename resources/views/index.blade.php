@@ -15,9 +15,6 @@
 <script type="text/javascript">
 
     window.App = {
-        user: {
-            id: '{{ $userId }}'
-        },
         api: '{{ $apiKey }}'
     };
 

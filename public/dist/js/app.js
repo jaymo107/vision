@@ -98,6 +98,8 @@ var App = function (_Marionette$Application) {
 
         var router = new _srcRoutersRouter2['default']();
 
+        router.navigate('connect', { trigger: true });
+
         // Send you to the login
 
         this.on("start", function () {
@@ -283,11 +285,11 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
+    value: true
 });
 
 function _interopRequireDefault(obj) {
-	return obj && obj.__esModule ? obj : { 'default': obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _backbone = require('backbone');
@@ -306,38 +308,38 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Get the recently watched programming
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-	url: "/history/2380",
+    url: "/history/" + localStorage.getItem("user_id"),
 
-	/** @type {Backbone.Model} The Model for the Programme structure */
-	model: _modelsProgramme2['default'],
+    /** @type {Backbone.Model} The Model for the Programme structure */
+    model: _modelsProgramme2['default'],
 
-	initialize: function initialize() {
-		this.fetch({
-			success: this.fetchSuccess,
-			error: this.fetchError
-		});
-	},
+    initialize: function initialize() {
+        this.fetch({
+            success: this.fetchSuccess,
+            error: this.fetchError
+        });
+    },
 
-	parse: function parse(response) {
-		return response.data;
-	},
+    parse: function parse(response) {
+        return response.data;
+    },
 
-	/**
-  * When the programmes have been successfully fetched from
-  * the vision server.
-  */
-	fetchSuccess: function fetchSuccess(data) {
-		console.log('History data:');
-		console.log(data);
-	},
+    /**
+     * When the programmes have been successfully fetched from
+     * the vision server.
+     */
+    fetchSuccess: function fetchSuccess(data) {
+        console.log('History data:');
+        console.log(data);
+    },
 
-	/**
-  * When the programmes have failed to be fetched from
-  * the vision server.
-  */
-	fetchError: function fetchError(data) {
-		console.log("Couldn't fetch the treding data from the server.");
-	}
+    /**
+     * When the programmes have failed to be fetched from
+     * the vision server.
+     */
+    fetchError: function fetchError(data) {
+        console.log("Couldn't fetch the treding data from the server.");
+    }
 
 });
 module.exports = exports['default'];
@@ -365,7 +367,7 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Get any results from the current search criteria
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-    url: '/recommendations/2380',
+    url: '/recommendations/' + localStorage.getItem("user_id"),
 
     /** @type {Backbone.Model} The Model for the Programme structure */
     model: _modelsProgramme2['default'],
@@ -728,11 +730,11 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
+    value: true
 });
 
 function _interopRequireDefault(obj) {
-	return obj && obj.__esModule ? obj : { 'default': obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _underscore = require('underscore');
@@ -776,53 +778,60 @@ var _viewsConnectView2 = _interopRequireDefault(_viewsConnectView);
  */
 exports['default'] = _backboneMarionette2['default'].AppRouter.extend({
 
-	routes: {
-		'browse': 'browseRoute',
-		'browse/:genre': 'browseShows',
-		'popular': 'popularRoute',
-		'watch': 'watchRoute',
-		'watch/:id': 'watchRoute',
-		'connect': 'connectRoute',
-		'*actions': 'defaultRoute'
-	},
+    routes: {
+        'browse': 'browseRoute',
+        'browse/:genre': 'browseShows',
+        'popular': 'popularRoute',
+        'watch': 'watchRoute',
+        'watch/:id': 'watchRoute',
+        'connect': 'connectRoute',
+        '*actions': 'defaultRoute'
+    },
 
-	connectRoute: function connectRoute() {
-		// Route to login and connect your vision account to your TV
-		console.log('Show the login view');
-		new _viewsConnectView2['default']();
-		SpatialNavigation.focus('#connect-input');
-	},
+    connectRoute: function connectRoute() {
+        // Route to login and connect your vision account to your TV
+        console.log('Show the login view');
+        new _viewsConnectView2['default'](this);
+        SpatialNavigation.focus('#connect-input');
+    },
 
-	defaultRoute: function defaultRoute() {
-		new _viewsAppLayoutView2['default']().showChildView('body', new _viewsHomeView2['default']());
-		SpatialNavigation.focus('#nav-home');
-	},
+    defaultRoute: function defaultRoute() {
+        new _viewsAppLayoutView2['default']().showChildView('body', new _viewsHomeView2['default']());
+        SpatialNavigation.focus('#nav-home');
+    },
 
-	browseRoute: function browseRoute() {
-		new _viewsAppLayoutView2['default']().showChildView('body', new _viewsBrowseView2['default']());
-		SpatialNavigation.focus('#nav-browse');
-	},
+    browseRoute: function browseRoute() {
+        new _viewsAppLayoutView2['default']().showChildView('body', new _viewsBrowseView2['default']());
+        SpatialNavigation.focus('#nav-browse');
+    },
 
-	popularRoute: function popularRoute() {
-		new _viewsAppLayoutView2['default']().showChildView('body', new _viewsPopularView2['default']());
-		SpatialNavigation.focus('#nav-popular');
-	},
+    popularRoute: function popularRoute() {
+        new _viewsAppLayoutView2['default']().showChildView('body', new _viewsPopularView2['default']());
+        SpatialNavigation.focus('#nav-popular');
+    },
 
-	watchRoute: function watchRoute(id) {
-		new _viewsAppLayoutView2['default']().showChildView('body', new _viewsWatchView2['default']({
-			id: id
-		}));
-	},
+    watchRoute: function watchRoute(id) {
+        new _viewsAppLayoutView2['default']().showChildView('body', new _viewsWatchView2['default']({
+            id: id
+        }));
+    },
 
-	browseShows: function browseShows(genre) {
-		new _viewsAppLayoutView2['default']().showChildView('body', new _viewsShowsView2['default']({
-			genre: genre
-		}));
-	},
+    browseShows: function browseShows(genre) {
+        new _viewsAppLayoutView2['default']().showChildView('body', new _viewsShowsView2['default']({
+            genre: genre
+        }));
+    },
 
-	initialize: function initialize(options) {
-		_underscore2['default'].extend(this, options);
-	}
+    onRoute: function onRoute(e) {
+
+        if (typeof window.App.user == 'undefined' && localStorage.getItem("user_id") === null) {
+            this.navigate('connect', true);
+        }
+    },
+
+    initialize: function initialize(options) {
+        _underscore2['default'].extend(this, options);
+    }
 
 });
 module.exports = exports['default'];
@@ -1012,11 +1021,15 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
     template: _underscore2['default'].template(require('./templates/connect.template.html')),
 
+    router: null,
+
     events: {
         'click #connect': 'connect'
     },
 
     connect: function connect(e) {
+        var _this = this;
+
         e.preventDefault();
         e.stopPropagation();
 
@@ -1027,6 +1040,16 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
             var user_id = data.user_id;
 
             console.log('User found: ' + user_id);
+
+            window.App = {
+                user: {
+                    id: user_id
+                }
+            };
+
+            localStorage.setItem("user_id", user_id);
+
+            _this.router.navigate('/', true);
         }).fail(function () {
             console.log("Couldn't find this user...");
             var n = (0, _noty2['default'])({
@@ -1042,8 +1065,21 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         console.log('Try to connect using code: ' + code);
     },
 
-    initialize: function initialize(options) {
-        _underscore2['default'].extend(this, options);
+    onRender: function onRender() {
+        // Clean the localstorage
+        console.log('Remove localstorage');
+
+        window.App = {
+            user: {
+                id: null
+            }
+        };
+
+        localStorage.removeItem("user_id");
+    },
+
+    initialize: function initialize(router) {
+        this.router = router;
         this.render();
     }
 
@@ -2031,13 +2067,13 @@ module.exports = '<h2><i class="fa fa-list" aria-hidden="true"></i> Browse</h2>\
 },{}],28:[function(require,module,exports){
 module.exports = '<div class="row">\n    <div class="<%- carouselId %>" id="<%- carouselId %>">\n        <% _.each(items, function(item, index) { %>\n        <div class="col-sm-3">\n            <a href="#/watch/<%- item.programme_id %>" class="thumbnail programme_thumb">\n                <h4><%- item.programme_name %></h4>\n                <hr>\n\n                <img src="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.image %>"\n                     alt="<%- item.programme_title %>" class="img-responsive img-rounded">\n\n                <% if(typeof item.likes !== \'undefined\') { %>\n                <span class="likes-small"><i class="fa fa-thumbs-up"></i> <%- item.likes %></span>\n\n                <span class="pull-right dislikes-small"><i class="fa fa-thumbs-down"></i> <%- item.dislikes\n                        %></span>\n                <% } else { %>\n                <span class="small"><i class="fa fa-clock-o"></i> <%- item.duration %></span>\n\n                <span class="small pull-right"><i class="fa fa-television"></i> <%- item.channel_name\n                        %></span>\n                <% } %>\n\n            </a>\n        </div>\n        <% }) %>\n\n    </div>\n</div>';
 },{}],29:[function(require,module,exports){
-module.exports = '<header class="row">\n    <div>\n        <div class="col-md-12">\n            <a href="#">\n                <img class="img-responsive logo center-block"\n                     src="http://vision.lancs.ac.uk/images/LancUni_Vision-Logo_300dpi_RGB.jpg" alt="vision-logo"\n                     style="margin-bottom: 30px; margin-top: 100px;">\n            </a>\n        </div>\n    </div>\n</header>\n\n<nav class="row">\n    <div class="col-md-4 col-md-offset-4 text-center">\n        <input type="text" id="connect-input" class="form-control form-group-lg tv-code controllable"\n               placeholder="Vision TV code..." autofocus required>\n    </div>\n</nav>\n\n<nav class="row">\n    <div class="col-md-12 text-center">\n        <ul class="list-inline">\n            <li>\n                <a href="#" id="connect" class="btn btn-lg btn-default controllable"><h3>\n                    <i class="fa fa-plug" aria-hidden="true"></i>\n                    Connect\n                </h3></a></li>\n        </ul>\n    </div>\n</nav>\n\n\n';
+module.exports = '<header class="row">\n    <div>\n        <div class="col-md-12">\n            <a href="#">\n                <img class="img-responsive center-block"\n                     src="logo.png" alt="vision-logo"\n                     style="margin-bottom: 30px; margin-top: 100px; max-width: 60%;">\n            </a>\n        </div>\n    </div>\n</header>\n\n<nav class="row">\n    <div class="col-md-4 col-md-offset-4 text-center">\n        <input type="text" id="connect-input" class="form-control form-group-lg tv-code controllable"\n               placeholder="Vision TV code..." autofocus required>\n    </div>\n</nav>\n\n<nav class="row">\n    <div class="col-md-12 text-center">\n        <ul class="list-inline">\n            <li>\n                <a href="#" id="connect" class="btn btn-lg btn-primary controllable"><h3>\n                    <i class="fa fa-plug" aria-hidden="true"></i>\n                    Connect\n                </h3></a></li>\n        </ul>\n    </div>\n</nav>\n\n\n<style>\n    body{\n        background: url(bg.jpg);\n    }\n</style>';
 },{}],30:[function(require,module,exports){
-module.exports = '<div class="col-md-3">\n    <a href="#">\n        <img class="img-responsive logo" src="http://vision.lancs.ac.uk/images/LancUni_Vision-Logo_300dpi_RGB.jpg" alt="vision-logo">\n    </a>\n</div>\n<div class="col-md-8 col-md-offset-1">\n    <input type="text" id="search-box" class="search form-control controllable" placeholder="Search titles...">\n</div>\n';
+module.exports = '<div class="col-md-3">\n    <a href="#">\n        <img class="img-responsive logo" src="logo.png" alt="vision-logo">\n    </a>\n</div>\n<div class="col-md-8 col-md-offset-1">\n    <input type="text" id="search-box" class="search form-control controllable" placeholder="Search titles...">\n</div>\n';
 },{}],31:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-user" aria-hidden="true"></i> For You</h2>\n<hr>\n<div id="recommended-region"></div>\n\n<h2><i class="fa fa-history" aria-hidden="true"></i> Recently Watched</h2>\n<hr>\n<div id="history-region"></div>';
 },{}],32:[function(require,module,exports){
-module.exports = '<div class="col-md-12 text-center">\n    <ul class="list-inline">\n        <li><a href="#/" id="nav-home" class="btn btn-lg btn-<% if(page == \'\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-home" aria-hidden="true"></i> Home</h3></a></li>\n        <li><a href="#/popular" id="nav-popular" class="btn btn-lg btn-<% if(page == \'popular\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-fire" aria-hidden="true"></i> Popular</h3></a></li>\n        <li><a href="#/browse" id="nav-browse" class="btn btn-lg btn-<% if(page == \'browse\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-list" aria-hidden="true"></i> Browse</h3></a></li>\n    </ul>\n</div>\n';
+module.exports = '<div class="col-md-12 text-center">\n    <ul class="list-inline">\n        <li><a href="#/" id="nav-home" class="btn btn-lg btn-<% if(page == \'\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-home" aria-hidden="true"></i> Home</h3></a></li>\n        <li><a href="#/popular" id="nav-popular" class="btn btn-lg btn-<% if(page == \'popular\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-fire" aria-hidden="true"></i> Popular</h3></a></li>\n        <li><a href="#/browse" id="nav-browse" class="btn btn-lg btn-<% if(page == \'browse\'){ %>info<% } else {%>default<%}%> controllable"><h3><i class="fa fa-list" aria-hidden="true"></i> Browse</h3></a></li>\n        <li><a href="#/connect" id="nav-browse" class="btn btn-lg btn-danger btn-outline controllable"><h3><i\n                class="fa fa-sign-out" aria-hidden="true"></i> Logout</h3></a></li>\n    </ul>\n</div>\n';
 },{}],33:[function(require,module,exports){
 module.exports = '<h2><i class="fa fa-fire" aria-hidden="true"></i> Popular Now</h2>\n<hr>\n\n<% _.each(collections, function(collection, cindex) { %>\n<div class="row">\n    <div class="popular-carousel">\n        <% _.each(collection, function(item, index) { %>\n        <div class="col-sm-3">\n            \n            <a href="#/watch/<%- item.get(\'programme_id\') %>" class="thumbnail programme_thumb">\n                <h4><%- item.get(\'programme_name\') %></h4>\n                <hr>\n                <img data-lazy="http://iptv-med-image.lancs.ac.uk/cache/200x200/programmes/<%- item.get(\'image\') %>" alt="<%- item.get(\'programme_title\') %>" class="img-responsive img-rounded">\n\n                <span class="small"><i class="fa fa-clock-o"></i> <%- item.get(\'duration\') %></span>\n\n                <span class="small pull-right"><i class="fa fa-television"></i> <%- item.get(\'channel_name\') %></span>\n            </a>\n        </div>\n        <% }) %>\n    </div>\n</div>\n\n<% }); %>';
 },{}],34:[function(require,module,exports){

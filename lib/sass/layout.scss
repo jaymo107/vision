@@ -228,7 +228,13 @@ hr {
   bottom: 10px;
 }
 
-.tv-code{
-  font-size: 24px;
+.tv-code {
+  font-size: 35px;
   height: 60px;
+  text-align: center;
+  background: white;
+
+  &:focus {
+    background: white !important;
+  }
 }

@@ -49,7 +49,7 @@ class RecommendationsController
         // Dispatch the job to generate the recommendations
         \Illuminate\Support\Facades\Queue::push(new GenerateRecommendationsJob($user, $this->history));
 
-        return $this->generateRecommendations($this->history);
+        return $this->generateRecommendations($user, $this->history);
 
         // Get the recommendations from the database
 //        $recommendations = Recommendation::whereUserId($user)->get();
@@ -106,7 +106,7 @@ class RecommendationsController
      * @return array
      * @internal param $user
      */
-    private function generateRecommendations($history)
+    private function generateRecommendations($user, $history)
     {
         $data = array();
         // The number of recommendations to generate
@@ -153,6 +153,11 @@ class RecommendationsController
 //                if ($this->hasBeenWatchedPreviously($pgm, $this->history)) {
 //                    continue;
 //                }
+                $existsInHistory = History::where(['user_id' => $user, 'programme_id' => $pgm->programme_id])->count();
+
+                if ($existsInHistory > 0) {
+                    continue;
+                }
 
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {

@@ -31,7 +31,53 @@
 
 
 <style>
-    body{
-        background: url(bg.jpg);
+    body {
+        background: url(bg.jpg) repeat;
+        -webkit-animation: loader 120s steps(1500) infinite;
+        -moz-animation: loader 120s steps(1500) infinite;
+        -ms-animation: loader 120s steps(1500) infinite;
+        -o-animation: loader 120s steps(1500) infinite;
+        animation: loader 60s steps(1500) infinite;
+    }
+
+    @-webkit-keyframes loader {
+        from {
+            background-position: 0;
+        }
+        to {
+            background-position: -1000px -1000px;
+        }
+    }
+    @-moz-keyframes loader {
+        from {
+            background-position: 0;
+        }
+        to {
+            background-position: -1000px -1000px;
+        }
+    }
+    @-ms-keyframes loader {
+        from {
+            background-position: 0;
+        }
+        to {
+            background-position: -1000px -1000px;
+        }
+    }
+    @-o-keyframes loader {
+        from {
+            background-position: 0;
+        }
+        to {
+            background-position: -1000px -1000px;
+        }
+    }
+    @keyframes loader {
+        from {
+            background-position: 0;
+        }
+        to {
+            background-position: -1000px -1000px;
+        }
     }
 </style>

@@ -304,7 +304,7 @@ var _modelsProgramme2 = _interopRequireDefault(_modelsProgramme);
  * Get the recently watched programming
  */
 exports['default'] = _backbone2['default'].Collection.extend({
-	url: 'http://iptv-stats-lb-float.lancs.ac.uk:9110/analysis/viewing_history_v2?image_size=210x150&tv_radio=TV&limit=10&timestamp=1480173113.441&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&user_id=2380',
+	url: "/history/2380",
 
 	/** @type {Backbone.Model} The Model for the Programme structure */
 	model: _modelsProgramme2['default'],

@@ -17,6 +17,8 @@ $app->group(['prefix' => 'user'], function () use ($app) {
     $app->get('/', ['as' => 'user', 'uses' => 'UserController@getUser']);
 });
 
+$app->get('/history/{user}', ['as' => 'history', 'middleware' => [], 'uses' => 'UserController@getHistory']);
+
 $app->group(['prefix' => 'programmes'], function () use ($app) {
     $app->get('/', ['as' => 'programmes', 'uses' => 'ProgrammeController@getProgrammes']);
 

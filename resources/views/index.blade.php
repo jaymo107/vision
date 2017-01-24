@@ -18,7 +18,6 @@
         user: {
             id: '{{ $userId }}'
         },
-
         api: '{{ $apiKey }}'
     };
 

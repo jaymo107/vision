@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\History;
 use Illuminate\Http\JsonResponse;
 use Kozz\Laravel\Facades\Guzzle;
 
@@ -29,6 +30,27 @@ class UserController
             'token' => '',
             'timestamp' => ''
         ], 200);
+    }
+
+    public function getHistory($user)
+    {
+        return $this->getLocalHistory($user);
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    private function getLocalHistory($user)
+    {
+        $results = History::with('programme')->where('user_id', $user)->get(['programme_id'])->toArray();
+        $result = [];
+
+        foreach ($results as $element) {
+            $result[] = $element['programme'];
+        }
+
+        return $result;
     }
 
 }

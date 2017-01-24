@@ -77,28 +77,13 @@ class RecommendationsController
         $results = History::with('programme')->where('user_id', $user)->get(['programme_id'])->toArray();
         $result = [];
 
-        foreach($results as $element) {
+        foreach ($results as $element) {
             $result[] = $element['programme'];
         }
 
-        return History::where('user_id', $user)->get()->toArray();
+        return $result;
     }
-
-    /**
-     * @param $user
-     * @return array
-     */
-    private function getVisionHistory($user)
-    {
-        $url = 'http://iptv-stats-lb-float.lancs.ac.uk:9110/analysis/viewing_history_v2?image_size=85x50&tv_radio=TV&timestamp=1483368621.28&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&user_id=' . $user;
-
-        $response = $this->client->request('GET', $url);
-
-        $content = Guzzle\json_decode($response->getBody()->getContents());
-
-        return $content;
-    }
-
+    
     /**
      * Check if the user has any history, if they do then use our algorithm
      * to filter through recommendations, otherwise, use vision's api.
@@ -111,13 +96,7 @@ class RecommendationsController
 
         // Check which history to use
         // Get the first element from each
-        $localHistory = $this->getLocalHistory($user);
-        $localLatest = strtotime($localHistory[0]['created_at']);
-
-        $visionHistory = $this->getVisionHistory($user);
-        $visionLatest = strtotime($visionHistory[0]['created_at']);
-
-        $this->history = ($localLatest >= $visionLatest) ? $localHistory : $visionHistory;
+        $this->history = $this->getLocalHistory($user);
 
         return (count($this->history) > 0);
     }
@@ -139,13 +118,11 @@ class RecommendationsController
 
         $programmeScores = [];
 
-
         // Loop through each programme in your history
         foreach ($history as $programme) {
 
             // Locate the programme in our table
             $currentProgramme = Programme::find($programme['programme_id']);
-
 
             if ($currentProgramme == null) {
                 continue;
@@ -173,11 +150,14 @@ class RecommendationsController
 
                 // TODO: Check programme hasn't already been watched previously
 
+//                if ($this->hasBeenWatchedPreviously($pgm, $this->history)) {
+//                    continue;
+//                }
+
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
                     continue;
                 }
-
                 // Compare $currentProgramme and $pgm and determine the score by counting the number of matches.
 
                 // Try to find a match in the genres
@@ -227,6 +207,17 @@ class RecommendationsController
             'ret_code' => 200,
             'data' => $data
         ];
+    }
+
+    private function hasBeenWatchedPreviously($programme, $history)
+    {
+        $hasFound = false;
+
+        foreach ($history as $element) {
+            if ($element['programme_id'] == $programme['programme_id']) {
+                return true;
+            }
+        }
     }
 
     /**

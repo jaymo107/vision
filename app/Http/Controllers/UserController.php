@@ -10,7 +10,9 @@ namespace App\Http\Controllers;
 
 
 use App\History;
+use App\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Kozz\Laravel\Facades\Guzzle;
 
 class UserController
@@ -49,6 +51,22 @@ class UserController
         return [
             'ret_code' => 200,
             'data' => array_reverse($result)
+        ];
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function storeUser(Request $request)
+    {
+        $user = User::firstOrCreate([
+            'id' => $request->request->get('user_id')
+        ]);
+
+        return [
+            'ret_code' => 200,
+            'data' => $user->toArray()
         ];
     }
 

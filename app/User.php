@@ -13,9 +13,11 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  *
  * @mixin \Eloquent
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model
 {
-    use Authenticatable, Authorizable;
+
+    protected $table = "users";
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,15 +25,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'token'
+        'id'
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password'
-    ];
 }

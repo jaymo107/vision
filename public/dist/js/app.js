@@ -827,6 +827,12 @@ exports['default'] = _backboneMarionette2['default'].AppRouter.extend({
         if (typeof window.App.user == 'undefined' && localStorage.getItem("user_id") === null) {
             this.navigate('connect', true);
         }
+
+        window.App = {
+            user: {
+                id: localStorage.getItem("user_id")
+            }
+        };
     },
 
     initialize: function initialize(options) {
@@ -1028,8 +1034,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     },
 
     connect: function connect(e) {
-        var _this = this;
-
         e.preventDefault();
         e.stopPropagation();
 
@@ -1049,7 +1053,13 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
             localStorage.setItem("user_id", user_id);
 
-            _this.router.navigate('/', true);
+            // Store this user in the db
+            _jquery2['default'].post('/user/store', { user_id: user_id }, function (response) {
+                console.log('User has been stored successfully!');
+                console.log(response);
+
+                window.location.href = "/";
+            });
         }).fail(function () {
             console.log("Couldn't find this user...");
             var n = (0, _noty2['default'])({
@@ -1065,7 +1075,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         console.log('Try to connect using code: ' + code);
     },
 
-    onRender: function onRender() {
+    onBeforeRender: function onBeforeRender() {
         // Clean the localstorage
         console.log('Remove localstorage');
 
@@ -1899,7 +1909,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     like: function like(e) {
         var _this2 = this;
 
-        _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'like' }, function (data) {
+        _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'like', user_id: localStorage.getItem("user_id") }, function (data) {
             console.log(data);
             _this2.updateLikeDislikeButtons(data.type);
 
@@ -1955,7 +1965,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
         console.log('Dislike this video');
 
-        _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'dislike' }, function (data) {
+        _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', {
+            type: 'dislike',
+            user_id: window.App.user.id
+        }, function (data) {
             console.log(data.type);
             _this4.updateLikeDislikeButtons(data.type);
 
@@ -2009,7 +2022,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         });
 
         // Set the buttons
-        _jquery2['default'].get('/programmes/' + this.model.get('id') + '/rating', function (data) {
+        _jquery2['default'].get('/programmes/' + this.model.get('id') + '/rating', { user_id: localStorage.getItem("user_id") }, function (data) {
             // Get request made
 
             var type = data.type;

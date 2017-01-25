@@ -29,7 +29,6 @@ class HomeController extends Controller
     {
 
         return view('index')->with([
-            'userId' => 2830,
             'apiKey' => $this->apiKey
         ]);
     }

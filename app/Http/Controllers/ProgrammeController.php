@@ -57,8 +57,7 @@ class ProgrammeController
     public function rateProgramme($id, Request $request)
     {
         $type = $request->request->get('type');
-
-        $userId = 1;
+        $userId = $request->request->get('user_id');
 
         if ($type == 'like') {
             $dislikeExists = Dislike::where([
@@ -120,26 +119,27 @@ class ProgrammeController
         return new JsonResponse([], 200);
     }
 
-    public function getRating($id)
+    public function getRating($id, Request $request)
     {
         $type = '';
+        $userId = $request->request->get('user_id');
 
         // Check if you like or dislike the current programme
         $isLike = Like::where([
             'programme_id' => $id,
-            'user_id' => 1
+            'user_id' => $userId
         ])->first();
 
         $isDislike = Dislike::where([
             'programme_id' => $id,
-            'user_id' => 1
+            'user_id' => $userId
         ])->first();
 
-        if($isLike) {
+        if ($isLike) {
             $type = 'like';
         }
 
-        if($isDislike) {
+        if ($isDislike) {
             $type = 'dislike';
         }
 

@@ -15,6 +15,7 @@ $app->get('/', ['as' => 'home', 'middleware' => [], 'uses' => 'HomeController@in
 
 $app->group(['prefix' => 'user'], function () use ($app) {
     $app->get('/', ['as' => 'user', 'uses' => 'UserController@getUser']);
+    $app->post('/store', ['as' => 'storeUser', 'uses' => 'UserController@storeUser']);
 });
 
 $app->get('/history/{user}', ['as' => 'history', 'middleware' => [], 'uses' => 'UserController@getHistory']);

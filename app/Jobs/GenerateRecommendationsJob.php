@@ -2,8 +2,13 @@
 
 namespace App\Jobs;
 
+use App\History;
 use App\Programme;
 use App\Recommendation;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Generate recommendations for a particular user.
@@ -34,18 +39,21 @@ class GenerateRecommendationsJob extends Job
      */
     public function handle()
     {
-        dd('Generating recommendations for user: ' . $this->user);
-        $this->generateRecommendations($this->user, $this->history);
+        var_dump('Generating recommendations for ' . $this->user);
+        $this->generateRecommendations();
     }
 
     /**
-     * @param $user
-     * @param $history
      * @return array
      * @internal param $user
+     * @internal param $history
+     * @internal param $user
      */
-    private function generateRecommendations($user, $history)
+    private function generateRecommendations()
     {
+        $user = $this->user;
+        $history = $this->history;
+
         $data = array();
         // The number of recommendations to generate
         $numOfRecommendations = 8;
@@ -67,6 +75,8 @@ class GenerateRecommendationsJob extends Job
             if ($currentProgramme == null) {
                 continue;
             }
+
+            var_dump($currentProgramme->programme_name);
 
             // Compare this programme with every other programme in the table
             $allProgrammes = Programme::all();
@@ -130,15 +140,17 @@ class GenerateRecommendationsJob extends Job
 
             // TODO: Add the best scoring set to the database, for this user so save it.
 
-            // Remove all current programmes for this user
-            $oldRecommendations = Recommendation::whereUserId(2380)->each(function (Recommendation $item) {
-                $item->delete();
-            });
-
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
         }
 
+        var_dump('Deleting old recommendations!');
+        // Remove all current programmes for this user
+        Recommendation::whereUserId($user)->each(function (Recommendation $item) {
+            $item->delete();
+        });
+
+        var_dump('Storing to database!');
         foreach ($data as $recommendedProgram) {
             $recommendation = new Recommendation([
                 'user_id' => $user,
@@ -152,10 +164,9 @@ class GenerateRecommendationsJob extends Job
             return $a['likes'] < $b['likes'];
         });
 
-        return [
-            'ret_code' => 200,
-            'data' => $data
-        ];
+        var_dump('Generated!');
+
+        return $data;
     }
 
 

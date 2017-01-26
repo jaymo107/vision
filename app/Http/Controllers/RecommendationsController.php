@@ -47,11 +47,8 @@ class RecommendationsController
         }
 
         // Dispatch the job to generate the recommendations
-        \Illuminate\Support\Facades\Queue::push(new GenerateRecommendationsJob($user, $this->history));
-
-
-
-        //return $this->generateRecommendations($user, $this->history);
+        $job = new GenerateRecommendationsJob($user, $this->history);
+        dispatch($job);
 
         // Get the recommendations from the database
         $recommendations = Recommendation::whereUserId($user)->get();

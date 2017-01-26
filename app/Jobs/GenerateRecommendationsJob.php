@@ -133,15 +133,18 @@ class GenerateRecommendationsJob extends Job
                     $bestScoringSoFar = $currentScore;
                     // Set the programme too.
                     $bestProgrammeSoFar = $pgm;
+
+                    var_dump($bestProgrammeSoFar->programme_name . ' is best programme so far with a score of '
+                        . $bestScoringSoFar);
                 }
             }
 
             $programmeScores[] = $allScores;
 
-            // TODO: Add the best scoring set to the database, for this user so save it.
-
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
+            var_dump($bestProgrammeSoFar->programme_name . ' was selected as a recommendation from 
+            ' . $currentProgramme->programme_name);
         }
 
         var_dump('Deleting old recommendations!');

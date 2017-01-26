@@ -35,15 +35,16 @@ class GenerateRecommendationsJob extends Job
     public function handle()
     {
         dd('Generating recommendations for user: ' . $this->user);
-        $this->generateRecommendations($this->history);
+        $this->generateRecommendations($this->user, $this->history);
     }
 
     /**
+     * @param $user
      * @param $history
      * @return array
      * @internal param $user
      */
-    private function generateRecommendations($history)
+    private function generateRecommendations($user, $history)
     {
         $data = array();
         // The number of recommendations to generate
@@ -55,13 +56,13 @@ class GenerateRecommendationsJob extends Job
 
         $programmeScores = [];
 
+        $alreadyRecommended = [];
 
         // Loop through each programme in your history
         foreach ($history as $programme) {
 
             // Locate the programme in our table
-            $currentProgramme = Programme::find($programme->programme_id);
-
+            $currentProgramme = Programme::find($programme['programme_id']);
 
             if ($currentProgramme == null) {
                 continue;
@@ -78,27 +79,29 @@ class GenerateRecommendationsJob extends Job
 
             $allScores = [];
 
-
             // Loop over every programme and compare it to the current programme in your history
             // determine the score for each of the programmes.
-            // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
-
             // regardless
+
             foreach ($allProgrammes as $pgm) {
 
                 $currentScore = 0;
 
-                // TODO: Check programme hasn't already been watched previously
+                $existsInHistory = History::where(['user_id' => $user, 'programme_id' => $pgm->programme_id])->count();
+
+                if ($existsInHistory > 0) {
+                    continue;
+                }
 
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
                     continue;
                 }
 
-                if($pgm->getLikes() < $pgm->getDislikes()) {
+                // Only match programmes which have more likes than dislikes
+                if ($pgm->getLikes() <= $pgm->getDislikes()) {
                     continue;
                 }
-
                 // Compare $currentProgramme and $pgm and determine the score by counting the number of matches.
 
                 // Try to find a match in the genres
@@ -128,16 +131,21 @@ class GenerateRecommendationsJob extends Job
             // TODO: Add the best scoring set to the database, for this user so save it.
 
             // Remove all current programmes for this user
-            $oldRecommendations = Recommendation::whereUserId($this->user)->each(function (Recommendation $item, $key) {
+            $oldRecommendations = Recommendation::whereUserId(2380)->each(function (Recommendation $item) {
                 $item->delete();
             });
 
-//            foreach ($oldRecommendations as $oldRecommendation) {
-//                Recommendation::destroy($oldRecommendation->);
-//            }
-
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
+        }
+
+        foreach ($data as $recommendedProgram) {
+            $recommendation = new Recommendation([
+                'user_id' => $user,
+                'programme_id' => $recommendedProgram->programme_id
+            ]);
+
+            $recommendation->save();
         }
 
         usort($data, function ($a, $b) {
@@ -149,6 +157,7 @@ class GenerateRecommendationsJob extends Job
             'data' => $data
         ];
     }
+
 
     /**
      * @param Programme $programmeA

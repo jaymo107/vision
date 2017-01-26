@@ -82,6 +82,7 @@ class GenerateRecommendationsJob extends Job
             // Loop over every programme and compare it to the current programme in your history
             // determine the score for each of the programmes.
             // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
+
             // regardless
             foreach ($allProgrammes as $pgm) {
 
@@ -91,6 +92,10 @@ class GenerateRecommendationsJob extends Job
 
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
+                    continue;
+                }
+
+                if($pgm->getLikes() < $pgm->getDislikes()) {
                     continue;
                 }
 

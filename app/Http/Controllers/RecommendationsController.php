@@ -144,6 +144,9 @@ class RecommendationsController
             // determine the score for each of the programmes.
             // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
             // regardless
+
+            var_dump($currentProgramme->getLikes());
+
             foreach ($allProgrammes as $pgm) {
 
                 $currentScore = 0;
@@ -161,6 +164,10 @@ class RecommendationsController
 
                 // Make sure you're not comparing to the current programme in your history.
                 if ($pgm->programme_id == $currentProgramme->programme_id) {
+                    continue;
+                }
+
+                if($pgm->getLikes() < $pgm->getDislikes()) {
                     continue;
                 }
                 // Compare $currentProgramme and $pgm and determine the score by counting the number of matches.

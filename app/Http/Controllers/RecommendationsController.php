@@ -118,6 +118,8 @@ class RecommendationsController
 
         $programmeScores = [];
 
+        $alreadyRecommended = [];
+
         // Loop through each programme in your history
         foreach ($history as $programme) {
 
@@ -139,23 +141,14 @@ class RecommendationsController
 
             $allScores = [];
 
-
             // Loop over every programme and compare it to the current programme in your history
             // determine the score for each of the programmes.
-            // TODO: Try to use only programmes people have liked, this currently will get ALL of the programmes
             // regardless
-
-            var_dump($currentProgramme->getLikes());
 
             foreach ($allProgrammes as $pgm) {
 
                 $currentScore = 0;
 
-                // TODO: Check programme hasn't already been watched previously
-
-//                if ($this->hasBeenWatchedPreviously($pgm, $this->history)) {
-//                    continue;
-//                }
                 $existsInHistory = History::where(['user_id' => $user, 'programme_id' => $pgm->programme_id])->count();
 
                 if ($existsInHistory > 0) {
@@ -167,7 +160,8 @@ class RecommendationsController
                     continue;
                 }
 
-                if($pgm->getLikes() < $pgm->getDislikes()) {
+                // Only match programmes which have more likes than dislikes
+                if ($pgm->getLikes() <= $pgm->getDislikes()) {
                     continue;
                 }
                 // Compare $currentProgramme and $pgm and determine the score by counting the number of matches.
@@ -199,16 +193,21 @@ class RecommendationsController
             // TODO: Add the best scoring set to the database, for this user so save it.
 
             // Remove all current programmes for this user
-//            $oldRecommendations = Recommendation::whereUserId($this->user)->each(function (Recommendation $item, $key) {
-//                $item->delete();
-//            });
-
-//            foreach ($oldRecommendations as $oldRecommendation) {
-//                Recommendation::destroy($oldRecommendation->);
-//            }
+            $oldRecommendations = Recommendation::whereUserId(2380)->each(function (Recommendation $item) {
+                $item->delete();
+            });
 
             // Get the meta from our database
             $data[] = $bestProgrammeSoFar;
+        }
+
+        foreach ($data as $recommendedProgram) {
+            $recommendation = new Recommendation([
+                'user_id' => $user,
+                'programme_id' => $recommendedProgram->programme_id
+            ]);
+
+            $recommendation->save();
         }
 
         usort($data, function ($a, $b) {
@@ -219,17 +218,6 @@ class RecommendationsController
             'ret_code' => 200,
             'data' => $data
         ];
-    }
-
-    private function hasBeenWatchedPreviously($programme, $history)
-    {
-        $hasFound = false;
-
-        foreach ($history as $element) {
-            if ($element['programme_id'] == $programme['programme_id']) {
-                return true;
-            }
-        }
     }
 
     /**

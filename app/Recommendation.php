@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recommendation extends Model
 {
     protected $table = 'recommendations';
-
+    protected $primaryKey = "user_id";
     protected $fillable = ['user_id', 'programme_id'];
 
     /**

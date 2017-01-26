@@ -1879,11 +1879,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                             console.log('Storing request data: ');
                             console.log(response);
                         });
+
+                        _this.renderMeta(_this.imdbMeta);
                     });
 
                     console.log('[IMDB] Render the imdb meta to the view.');
-
-                    _this.renderMeta(_this.imdbMeta);
                 });
             }
         });

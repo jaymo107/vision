@@ -36,7 +36,9 @@ class RecommendationsController
      */
     public function getRecommendations($user)
     {
-        if (!$this->shallUseAlgorithm($user)) {
+        $exists = \DB::table('config')->select('useAlgorithm')->count();
+
+        if ((!$this->shallUseAlgorithm($user) && $exists > 0) || $exists <= 0) {
             // Return visions trending data
             $response = $this->client->request('GET', 'http://iptv-svc-node-slave.lancs.ac.uk:2000/trending');
 

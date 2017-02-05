@@ -38,3 +38,8 @@ $app->group(['prefix' => 'meta'], function () use ($app) {
     $app->post('{programme_id}', ['as' => 'storeMeta', 'uses' => 'MetaController@storeMeta']);
     $app->get('{programme_id}', ['as' => 'meta', 'uses' => 'MetaController@getMeta']);
 });
+
+$app->get('togglealgorithm', ['as' => 'togglealgorithm', 'uses' => 'ConfigController@toggle']);
+
+//$app->get('seed', ['as' => 'seed', 'uses' => 'SeedController@seed']);
+//$app->get('fakeRatings', ['as' => 'fakeRatings', 'uses' => 'SeedController@ratings']);

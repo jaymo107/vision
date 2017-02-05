@@ -219,7 +219,11 @@ class GenerateRecommendationsJob extends Job
         $aWriters = \GuzzleHttp\json_decode($programmeA->writers);
         $bWriters = \GuzzleHttp\json_decode($programmeB->writers);
 
-        if ((count($aWriters) == 1 && $aWriters[0] == 'N/A') || (count($bWriters) == 1 && $bWriters[0] == 'N/A')) {
+        $invalid = ['', ' ', 'N/A'];
+
+        if ((count($aWriters) == 1 && in_array($aWriters[0], $invalid)) || (count($bWriters) == 1 && in_array
+                ($bWriters, $invalid))
+        ) {
             return 0;
         }
 
@@ -234,7 +238,9 @@ class GenerateRecommendationsJob extends Job
     private function matchDirector($programmeA, $programmeB)
     {
 
-        if ($programmeA->director == 'N/A' || $programmeB->director == 'N\A') {
+        if ($programmeA->director == 'N/A' || $programmeB->director == 'N\A' || empty($programmeA->director) || empty
+            ($programmeB->director)
+        ) {
             return 0;
         }
 

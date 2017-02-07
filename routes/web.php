@@ -42,4 +42,4 @@ $app->group(['prefix' => 'meta'], function () use ($app) {
 $app->get('toggle-algorithm', ['as' => 'togglealgorithm', 'uses' => 'ConfigController@toggle']);
 
 //$app->get('seed', ['as' => 'seed', 'uses' => 'SeedController@seed']);
-//$app->get('fakeRatings', ['as' => 'fakeRatings', 'uses' => 'SeedController@ratings']);
+$app->get('fakeRatings', ['as' => 'fakeRatings', 'uses' => 'SeedController@ratings']);

@@ -43,3 +43,8 @@ $app->get('toggle-algorithm', ['as' => 'togglealgorithm', 'uses' => 'ConfigContr
 
 //$app->get('seed', ['as' => 'seed', 'uses' => 'SeedController@seed']);
 $app->get('fakeRatings', ['as' => 'fakeRatings', 'uses' => 'SeedController@ratings']);
+
+$app->get('addUser', ['as' => 'showAddUser', 'uses' => 'UserController@addUser']);
+$app->post('addUser', ['as' => 'checkUser', 'uses' => 'UserController@checkUser']);
+$app->get('user-added', ['as' => 'user-added', 'uses' => 'UserController@userAdded']);
+$app->get('user-error', ['as' => 'user-error', 'uses' => 'UserController@userError']);

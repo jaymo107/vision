@@ -14,6 +14,7 @@ use App\Jobs\GenerateRecommendationsJob;
 use App\Programme;
 
 use App\Recommendation;
+use App\User;
 use GuzzleHttp as Guzzle;
 use Illuminate\Queue\Queue;
 
@@ -67,6 +68,19 @@ class RecommendationsController
             'data' => $data
         ];
 
+    }
+
+    public function display($user) {
+
+        $recommendations = \DB::table('recommendations')->where('user_id', $user)->get();
+
+        $programmes = [];
+
+        foreach ($recommendations as $programme) {
+            $programmes[] = Programme::find($programme->programme_id);
+        }
+
+        return view('display-recommendations')->with(['programmes' => $programmes, 'user' => $user]);
     }
 
     /**

@@ -19,7 +19,7 @@
 
         @foreach($programmes as $programme)
             <div class="col-md-3 text-center center-block">
-                <img src="@if($programme->poster == "N/A" || preg_match("imdb", $programme->poster))/no_poster.jpg
+                <img src="@if($programme->poster == "N/A" || preg_match("/imdb/g", $programme->poster))/no_poster.jpg
                @else
                 {{$programme->poster}}
                 @endif"

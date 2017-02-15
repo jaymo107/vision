@@ -17,18 +17,21 @@
 
     <div class="row">
 
-       @foreach($programmes as $programme)
-           <div class="col-md-3 text-center center-block">
-               <img src="@if($programme->poster == "N/A")/no_poster.jpg @else {{$programme->poster}} @endif"
-                    class="img-responsive center-block"
-                    style="width:
+        @foreach($programmes as $programme)
+            <div class="col-md-3 text-center center-block">
+                <img src="@if($programme->poster == "N/A" || preg_match("imdb", $programme->poster))/no_poster.jpg
+               @else
+                {{$programme->poster}}
+                @endif"
+                     class="img-responsive center-block"
+                     style="width:
                50px;
                height: 100px;">
-               <p>
-                   {{$programme->programme_name}}
-               </p>
-           </div>
-       @endforeach
+                <p>
+                    {{$programme->programme_name}}
+                </p>
+            </div>
+        @endforeach
 
     </div>
 </div>

@@ -74,6 +74,9 @@ class RecommendationsController
 
         $recommendations = \DB::table('recommendations')->where('user_id', $user)->get();
 
+        $job = new GenerateRecommendationsJob($user, $this->getLocalHistory($user));
+        dispatch($job);
+
         $programmes = [];
 
         foreach ($recommendations as $programme) {

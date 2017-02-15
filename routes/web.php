@@ -48,3 +48,7 @@ $app->get('addUser', ['as' => 'showAddUser', 'uses' => 'UserController@addUser']
 $app->post('addUser', ['as' => 'checkUser', 'uses' => 'UserController@checkUser']);
 $app->get('user-added', ['as' => 'user-added', 'uses' => 'UserController@userAdded']);
 $app->get('user-error', ['as' => 'user-error', 'uses' => 'UserController@userError']);
+
+
+$app->get('display-recommendations/{user}', ['as' => 'display-recommendations', 'uses' =>
+    'RecommendationsController@display']);

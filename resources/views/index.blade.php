@@ -7,6 +7,7 @@
     <title>Vision</title>
     <link rel="stylesheet" type="text/css" href="dist/css/app.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/2.0.11/plyr.css">
+    <link rel="stylesheet" href="/loader.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
@@ -22,5 +23,6 @@
 <script src="https://cdn.plyr.io/2.0.11/plyr.js"></script>
 <script src="https://luke-chang.github.io/js-spatial-navigation/spatial_navigation.js"></script>
 <script src="dist/js/app.js"></script>
+<script src="/pace.js"></script>
 </body>
 </html>

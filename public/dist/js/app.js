@@ -206,18 +206,13 @@ exports['default'] = _backbone2['default'].Collection.extend({
   * When the programmes have been successfully fetched from
   * the vision server.
   */
-	fetchSuccess: function fetchSuccess(data) {
-		console.log('History data:');
-		console.log(data);
-	},
+	fetchSuccess: function fetchSuccess(data) {},
 
 	/**
   * When the programmes have failed to be fetched from
   * the vision server.
   */
-	fetchError: function fetchError(data) {
-		console.log("Couldn't fetch the treding data from the server.");
-	}
+	fetchError: function fetchError(data) {}
 
 });
 module.exports = exports['default'];
@@ -265,18 +260,13 @@ exports['default'] = _backbone2['default'].Collection.extend({
   * When the programmes have been successfully fetched from
   * the vision server.
   */
-	fetchSuccess: function fetchSuccess(data) {
-		console.log('Categories data:');
-		console.log(data);
-	},
+	fetchSuccess: function fetchSuccess(data) {},
 
 	/**
   * When the programmes have failed to be fetched from
   * the vision server.
   */
-	fetchError: function fetchError(data) {
-		console.log("Couldn't fetch the treding data from the server.");
-	}
+	fetchError: function fetchError(data) {}
 
 });
 module.exports = exports['default'];
@@ -328,18 +318,13 @@ exports['default'] = _backbone2['default'].Collection.extend({
      * When the programmes have been successfully fetched from
      * the vision server.
      */
-    fetchSuccess: function fetchSuccess(data) {
-        console.log('History data:');
-        console.log(data);
-    },
+    fetchSuccess: function fetchSuccess(data) {},
 
     /**
      * When the programmes have failed to be fetched from
      * the vision server.
      */
-    fetchError: function fetchError(data) {
-        console.log("Couldn't fetch the treding data from the server.");
-    }
+    fetchError: function fetchError(data) {}
 
 });
 module.exports = exports['default'];
@@ -387,17 +372,12 @@ exports['default'] = _backbone2['default'].Collection.extend({
      * When the programmes have been successfully fetched from
      * the vision server.
      */
-    fetchSuccess: function fetchSuccess(data) {
-        console.log('Recommendations data:');
-        console.log(data);
-    },
+    fetchSuccess: function fetchSuccess(data) {},
     /**
      * When the programmes have failed to be fetched from
      * the vision server.
      */
-    fetchError: function fetchError(data) {
-        console.log("Couldn't fetch the Recommendations data from our server.");
-    }
+    fetchError: function fetchError(data) {}
 
 });
 module.exports = exports['default'];
@@ -522,9 +502,7 @@ exports['default'] = _backbone2['default'].Collection.extend({
   * When the programmes have failed to be fetched from
   * the vision server.
   */
-	fetchError: function fetchError(data) {
-		console.log("Couldn't fetch the treding data from the server.");
-	}
+	fetchError: function fetchError(data) {}
 
 });
 module.exports = exports['default'];
@@ -718,9 +696,9 @@ exports['default'] = _backbone2['default'].Model.extend({
     },
 
     initialize: function initialize(options) {
-        console.log(options);
+
         this.id = options.id;
-        console.log("ID SET to: " + this.id);
+
         this.url = 'http://vision.lancs.ac.uk:9110/modules/videometa/get_video_meta?programme_id=' + this.id + '&timestamp=1479981412.276&api=53e659a15aff4a402de2d51b98703fa1ade5b8c5&';
     }
 });
@@ -790,7 +768,7 @@ exports['default'] = _backboneMarionette2['default'].AppRouter.extend({
 
     connectRoute: function connectRoute() {
         // Route to login and connect your vision account to your TV
-        console.log('Show the login view');
+
         new _viewsConnectView2['default'](this);
         SpatialNavigation.focus('#connect-input');
     },
@@ -931,9 +909,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         }));
     },
 
-    onChildviewRenderSearch: function onChildviewRenderSearch(e) {
-        console.log('RENDER THE SEARCH VIEW HERE');
-    },
+    onChildviewRenderSearch: function onChildviewRenderSearch(e) {},
 
     /**
      * Render the child views.
@@ -1043,8 +1019,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
             var data = response.data[0];
             var user_id = data.user_id;
 
-            console.log('User found: ' + user_id);
-
             window.App = {
                 user: {
                     id: user_id
@@ -1055,13 +1029,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
             // Store this user in the db
             _jquery2['default'].post('/user/store', { user_id: user_id }, function (response) {
-                console.log('User has been stored successfully!');
-                console.log(response);
 
                 window.location.href = "/";
             });
         }).fail(function () {
-            console.log("Couldn't find this user...");
+
             var n = (0, _noty2['default'])({
                 layout: 'top',
                 modal: true,
@@ -1071,13 +1043,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                 timeout: 2000
             });
         });
-
-        console.log('Try to connect using code: ' + code);
     },
 
     onBeforeRender: function onBeforeRender() {
         // Clean the localstorage
-        console.log('Remove localstorage');
 
         window.App = {
             user: {
@@ -1273,7 +1242,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 	},
 
 	actOnSync: function actOnSync(collection) {
-		console.log('Collection was synchronised with the server');
 
 		this.splitCollection();
 
@@ -1300,14 +1268,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
 			if (index % 8 == 0 && index > 0) {
 
-				console.log('Reached 12');
 				collections.push(currentCollection);
 				currentCollection = [];
 			}
 		});
-
-		console.log('Collections are below');
-		console.log(collections);
 
 		return collections;
 	},
@@ -1374,8 +1338,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 	},
 
 	actOnSync: function actOnSync(collection) {
-		console.log('[XHR] Recently watched has been synced.');
-		console.log(collection);
+
 		this.render();
 	},
 
@@ -1532,8 +1495,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
 		this.page -= 1;
 
-		console.log('Go back a page to page ' + this.getOption('page'));
-
 		this.collection = new _collectionsSearchCollection2['default']({ search: this.getOption('search'), page: this.getOption('page') });
 
 		this.collection.fetch({
@@ -1556,8 +1517,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 			error: this.fetchError
 		});
 
-		console.log('Go next to page ' + this.getOption('page'));
-
 		this.recentlyPressed = 'next';
 	},
 
@@ -1565,18 +1524,13 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
   * When the programmes have been successfully fetched from
   * the vision server.
   */
-	fetchSuccess: function fetchSuccess(data) {
-		console.log('Search data:');
-		console.log(data);
-	},
+	fetchSuccess: function fetchSuccess(data) {},
 
 	/**
   * When the programmes have failed to be fetched from
   * the vision server.
   */
-	fetchError: function fetchError(data) {
-		console.log("Error retrieving search terms.");
-	},
+	fetchError: function fetchError(data) {},
 
 	onRender: function onRender() {
 		if (this.getOption('recentlyPressed') != "") {
@@ -1657,8 +1611,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
 		this.page -= 1;
 
-		console.log('Go back a page to page ' + this.getOption('page'));
-
 		this.collection = new _collectionsBrowseVODCollection2['default']({ genre: this.getOption('genre'), page: this.getOption('page') });
 
 		this.collection.fetch({
@@ -1680,8 +1632,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 			success: this.render,
 			error: this.fetchError
 		});
-
-		console.log('Go next to page ' + this.getOption('page'));
 
 		this.recentlyPressed = 'next';
 	},
@@ -1794,7 +1744,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
         this.model.fetch({
             success: function success(data) {
-                console.log(data);
 
                 var programme_name = data.get('name').includes('New: ') ? data.get('name').replace('New: ', '') : data.get('name');
                 programme_name = programme_name.replace(/["']/g, "");
@@ -1810,7 +1759,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                 _jquery2['default'].get('/meta/' + programme_id, function (response) {
 
                     if (response.response_num == 200) {
-                        console.log('This programme exists in our db');
 
                         var _data = response.data;
 
@@ -1829,15 +1777,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                         return;
                     }
 
-                    console.log('Doesnt exist, so query the imdb api');
-                    console.log('SEARCH IMDB FOR: ');
-                    console.log(programme_name);
-
                     _imdbApi2['default'].getReq({ name: programme_name }, function (err, data) {
-                        console.log('[IMDB] Found from IDMB!');
-
-                        console.log('Error from IMDB: ');
-                        console.log(err);
 
                         _this.imdbMeta = {
                             imdbid: data.imdbid,
@@ -1851,13 +1791,6 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                             writers: data.writer,
                             director: data.director
                         };
-
-                        // Store this metadata in the database if it doesn't already exist
-                        console.log('[META] Preparing post request to /meta/' + programme_id);
-
-                        console.log('[HISTORY] You should save this video to your history here: UserID: ' + window.App.user.id + ', programme_id: ' + programme_id);
-
-                        console.log(_this.getOption('imdbMeta'));
 
                         _jquery2['default'].post('/meta/' + programme_id, {
                             'imdb_id': _this.imdbMeta.imdbid,
@@ -1875,15 +1808,10 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
                             'likes': 0,
                             'dislikes': 0,
                             'user': window.App.user.id
-                        }, function (response) {
-                            console.log('Storing request data: ');
-                            console.log(response);
-                        });
+                        }, function (response) {});
 
                         _this.renderMeta(_this.imdbMeta);
                     });
-
-                    console.log('[IMDB] Render the imdb meta to the view.');
                 });
             }
         });
@@ -1910,7 +1838,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         var _this2 = this;
 
         _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', { type: 'like', user_id: localStorage.getItem("user_id") }, function (data) {
-            console.log(data);
+
             _this2.updateLikeDislikeButtons(data.type);
 
             _this2.refreshLikesOrDislikes(_this2.model.get('id'));
@@ -1963,13 +1891,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     dislike: function dislike(e) {
         var _this4 = this;
 
-        console.log('Dislike this video');
-
         _jquery2['default'].post('/programmes/' + this.model.get('id') + '/rate', {
             type: 'dislike',
             user_id: window.App.user.id
         }, function (data) {
-            console.log(data.type);
+
             _this4.updateLikeDislikeButtons(data.type);
 
             _this4.refreshLikesOrDislikes(_this4.model.get('id'));
@@ -1999,26 +1925,22 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
         this.player[0].play();
 
         this.player[0].on('playing', function (event) {
-            console.log('[VIDEO] Playing the video');
+
             var instance = event.detail.plyr;
             _this5.$('#togglePlay').removeClass('disabled');
             _this5.updatePlayPauseButton(1);
         });
 
         this.player[0].on('waiting', function (event) {
-            console.log('[VIDEO] Waiting...');
+
             var instance = event.detail.plyr;
             _this5.$('#togglePlay').html('<i class="fa fa-cog fa-spin"></i>');
         });
 
         this.player[0].on('pause', function (event) {
-            console.log('[VIDEO] Paused the video');
+
             var instance = event.detail.plyr;
             _this5.updatePlayPauseButton(0);
-        });
-
-        this.player[0].on('timeupate', function (event) {
-            console.log('Time has updated');
         });
 
         // Set the buttons
@@ -2027,15 +1949,11 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
 
             var type = data.type;
 
-            console.log('The type of rating returned is: ' + type);
-
             _this5.updateLikeDislikeButtons(type);
         });
     },
 
-    onShow: function onShow() {
-        console.log('showing');
-    },
+    onShow: function onShow() {},
 
     templateContext: function templateContext() {
         return {
@@ -2044,8 +1962,7 @@ exports['default'] = _backboneMarionette2['default'].View.extend({
     },
 
     toggleFullscreen: function toggleFullscreen(e) {
-        console.log('Toggle fullscreen!');
-        console.log(this.player[0]);
+
         this.player[0].toggleFullscreen();
     },
 
